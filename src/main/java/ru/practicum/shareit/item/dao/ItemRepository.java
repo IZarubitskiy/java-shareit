@@ -3,17 +3,19 @@ package ru.practicum.shareit.item.dao;
 import ru.practicum.shareit.item.model.Item;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface ItemRepository {
 
-    Collection<Item> get();
+    Collection<Item> get(Long userId);
 
-    Item add(Item user);
+    Item add(Item item);
 
-    Item update(Item user);
+    Item update(Long itemId, Item item);
 
-    Optional<Item> getById(Long id);
+    Optional<Item> getById(Long itemId);
 
-    boolean delete(Long id);
+    List<Item> getByString(String query);
+
 }

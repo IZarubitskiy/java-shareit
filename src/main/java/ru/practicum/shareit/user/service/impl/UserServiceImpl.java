@@ -9,19 +9,11 @@ import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 
-import java.util.Collection;
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    @Override
-    public Collection<User> get() {
-        return List.of();
-    }
 
     @Override
     public UserDto add(UserDto userDto) {

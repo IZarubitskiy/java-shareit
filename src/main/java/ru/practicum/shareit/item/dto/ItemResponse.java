@@ -6,12 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// TODO Sprint add-controllers.
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemDto {
+public class ItemResponse {
 
     @NotBlank(message = "Name is required.")
     private String name;
@@ -19,6 +17,4 @@ public class ItemDto {
     @NotNull(message = "Description is required.")
     private String description;
 
-    @NotNull(message = "Available is required")
-    private Boolean available;
 }
