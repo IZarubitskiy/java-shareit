@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.dao.impl;
 
+import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exceptions.AuthorizationException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.item.dao.ItemRepository;
@@ -7,6 +8,7 @@ import ru.practicum.shareit.item.model.Item;
 
 import java.util.*;
 
+@Repository
 public class InMemoryItemRepository implements ItemRepository {
 
     private final Map<Long, Item> items = new HashMap<>();
