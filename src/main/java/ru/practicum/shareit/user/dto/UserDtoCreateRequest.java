@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class UserDtoCreateRequest {
     @NotBlank(message = "Name is required.")
     private String name;
 

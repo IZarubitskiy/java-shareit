@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.dto.UserDtoCreateRequest;
+import ru.practicum.shareit.user.dto.UserDtoResponse;
+import ru.practicum.shareit.user.dto.UserDtoUpdateRequest;
 import ru.practicum.shareit.user.service.impl.UserServiceImpl;
 
 // TODO Sprint add-controllers.
@@ -18,20 +20,20 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto createUser(@Valid @RequestBody UserDto userDto) {
-        return userService.add(userDto);
+    public UserDtoResponse addUser(@Valid @RequestBody UserDtoCreateRequest userDtoCreateRequest) {
+        return userService.add(userDtoCreateRequest);
     }
 
     @PatchMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto updateUser(@Valid @RequestBody UserDto userDto,
-                              @PathVariable Long userId) {
-        return userService.update(userId, userDto);
+    public UserDtoResponse updateUser(@Valid @RequestBody UserDtoUpdateRequest userDtoUpdateRequest,
+                                      @PathVariable Long userId) {
+        return userService.update(userId, userDtoUpdateRequest);
     }
 
     @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto getUser(@PathVariable Long userId) {
+    public UserDtoResponse getUser(@PathVariable Long userId) {
         return userService.getById(userId);
     }
 

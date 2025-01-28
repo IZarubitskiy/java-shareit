@@ -1,8 +1,8 @@
 package ru.practicum.shareit.user.dao.impl;
 
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.exceptions.DuplicationException;
-import ru.practicum.shareit.exceptions.NotFoundException;
+import ru.practicum.shareit.exceptions.exemption.DuplicationException;
+import ru.practicum.shareit.exceptions.exemption.NotFoundException;
 import ru.practicum.shareit.user.dao.UserRepository;
 import ru.practicum.shareit.user.model.User;
 
@@ -24,9 +24,10 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public User add(User user) {
         emailExistCheck(user.getEmail());
-        user.setId(getNextId());
-        users.put(user.getId(), user);
-        return user;
+        Long id = getNextId();
+        user.setId(id);
+        users.put(id, user);
+        return users.get(id);
     }
 
     @Override
@@ -44,7 +45,6 @@ public class InMemoryUserRepository implements UserRepository {
         }
         users.put(userId, userFromBd);
         return userFromBd;
-
     }
 
     @Override

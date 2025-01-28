@@ -1,8 +1,8 @@
 package ru.practicum.shareit.item.dao.impl;
 
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.exceptions.AuthorizationException;
-import ru.practicum.shareit.exceptions.NotFoundException;
+import ru.practicum.shareit.exceptions.exemption.AuthorizationException;
+import ru.practicum.shareit.exceptions.exemption.NotFoundException;
 import ru.practicum.shareit.item.dao.ItemRepository;
 import ru.practicum.shareit.item.model.Item;
 

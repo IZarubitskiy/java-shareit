@@ -1,20 +1,16 @@
 package ru.practicum.shareit.item.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemResponse {
-
-    @NotBlank(message = "Name is required.")
+public class ItemDtoUpdateRequest {
     private String name;
-
-    @NotNull(message = "Description is required.")
     private String description;
-
+    private Boolean available;
 }
