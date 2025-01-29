@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-//TODO Sprint add-bookings.
 public class Booking {
     private Long id;
     private LocalDateTime start;

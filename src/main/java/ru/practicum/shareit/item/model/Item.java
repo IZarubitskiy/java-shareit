@@ -6,7 +6,6 @@ import ru.practicum.shareit.user.model.User;
 
 @Data
 @Builder
-// TODO Sprint add-controllers.
 public class Item {
     private Long id;
     private String name;

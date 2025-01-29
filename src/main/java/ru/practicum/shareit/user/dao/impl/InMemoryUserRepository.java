@@ -53,13 +53,8 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean delete(Long userId) {
-        if (!users.containsKey(userId)) {
-            return false;
-        } else {
-            users.remove(userId);
-            return true;
-        }
+    public void delete(Long userId) {
+        users.remove(userId);
     }
 
     private void emailExistCheck(String email) {
