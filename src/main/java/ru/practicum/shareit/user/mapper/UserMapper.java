@@ -1,6 +1,7 @@
 package ru.practicum.shareit.user.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import ru.practicum.shareit.user.dto.UserDtoCreateRequest;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
@@ -13,6 +14,7 @@ public interface UserMapper {
 
     User toUserCreate(UserDtoCreateRequest userDtoCreateRequest);
 
+    @Mapping(target = "id", source = "id")
     User toUserUpdate(UserDtoUpdateRequest userDtoUpdateRequest);
 
     UserDtoResponse toUserDtoResponse(User user);
