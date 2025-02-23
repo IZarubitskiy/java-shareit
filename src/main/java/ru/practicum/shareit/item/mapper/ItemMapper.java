@@ -27,11 +27,6 @@ public interface ItemMapper {
     @Mapping(target = "id", source = "item.id")
     @Mapping(target = "comments", source = "comments")
     @Mapping(target = "ownerId", source = "item.owner.id")
-    ItemDtoResponseComment toItemDtoResponseComment(Item item, List<CommentDtoResponseItem> comments);
-
-    @Mapping(target = "id", source = "item.id")
-    @Mapping(target = "comments", source = "comments")
-    @Mapping(target = "ownerId", source = "item.owner.id")
     @Mapping(target = "nextBooking", source = "nextBooking")
     @Mapping(target = "lastBooking", source = "lastBooking")
     ItemDtoResponseSeek toItemDtoResponseSeek(Item item,
