@@ -24,8 +24,6 @@ public interface ItemMapper {
 
     ItemDtoResponse toItemDtoResponse(Item item);
 
-    //   Item toItem(ItemDtoResponse itemDtoResponse, User user);
-
     @Mapping(target = "id", source = "item.id")
     @Mapping(target = "comments", source = "comments")
     @Mapping(target = "ownerId", source = "item.owner.id")
@@ -36,10 +34,10 @@ public interface ItemMapper {
     @Mapping(target = "ownerId", source = "item.owner.id")
     @Mapping(target = "nextBooking", source = "nextBooking")
     @Mapping(target = "lastBooking", source = "lastBooking")
-    ItemDtoResponseBooking toItemDtoResponseBooking(Item item,
-                                                    List<CommentDtoResponseItem> comments,
-                                                    LocalDateTime nextBooking,
-                                                    LocalDateTime lastBooking);
+    ItemDtoResponseSeek toItemDtoResponseSeek(Item item,
+                                              List<CommentDtoResponseItem> comments,
+                                              LocalDateTime nextBooking,
+                                              LocalDateTime lastBooking);
 
 
 }

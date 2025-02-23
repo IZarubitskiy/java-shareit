@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.service.impl;
 
+import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dao.BookingRepository;
@@ -66,7 +67,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Collection<ItemDtoResponseBooking> get(Long userId) {
+    public Collection<ItemDtoResponseSeek> get(Long userId) {
         List<Item> items = itemRepository.findItemsByOwnerId(userId);
         List<Booking> bookings = new ArrayList<>(bookingRepository.findAllByItem_Owner_IdOrderByStartDateDesc(userId));
         List<Comment> comments = commentRepository.findAllByItem_Owner_Id(userId);
@@ -94,16 +95,17 @@ public class ItemServiceImpl implements ItemService {
                             .stream()
                             .map(commentMapper::toItemCommentDtoResponse)
                             .toList();
-                    return itemMapper.toItemDtoResponseBooking(item, itemComments, nextBooking, lastBooking);
+                    return itemMapper.toItemDtoResponseSeek(item, itemComments, nextBooking, lastBooking);
                 }).toList();
     }
 
     @Override
-    public ItemDtoResponseComment getItemWithCommentsById(Long itemId) {
+    public ItemDtoResponseSeek getItemWithCommentsById(Long itemId) {
         Item item = getById(itemId);
         List<Comment> comments = commentRepository.findAllByItem_Id(itemId);
         List<CommentDtoResponseItem> itemComments = comments.stream().map(commentMapper::toItemCommentDtoResponse).toList();
-        return itemMapper.toItemDtoResponseComment(item, itemComments);
+
+        return itemMapper.toItemDtoResponseSeek(item, itemComments,null, null);
     }
 
     @Override
@@ -123,7 +125,7 @@ public class ItemServiceImpl implements ItemService {
         User author = userMapper.toUser(userService.getById(authorId));
 
         if (bookingRepository.findPastByItem_IdAndBooker_Id(itemId, authorId).isEmpty()) {
-            throw new NotFoundException(String.format("Item id=%d completed booking of user id=%d not found", itemId, authorId));
+            throw new ValidationException(String.format("Item id=%d completed booking of user id=%d not found", itemId, authorId));
         }
 
         Comment comment = commentMapper.toCommentCreate(commentDtoRequestCreate, item, author);

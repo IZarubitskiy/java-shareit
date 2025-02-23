@@ -122,7 +122,7 @@ public class BookingServiceImpl implements BookingService {
         } else if (start.equals(end)) {
             throw new ValidationException("Start date equals end date");
         } else if (Boolean.FALSE.equals(booking.getItem().getAvailable())) {
-            throw new NotFoundException(String.format("Item %d is not available", booking.getItem().getId()));
+            throw new ValidationException(String.format("Item %d is not available", booking.getItem().getId()));
         }
     }
 

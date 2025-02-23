@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -12,11 +13,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class ItemDtoResponseComment {
+public class ItemDtoResponseSeek {
     private Long id;
     private String name;
     private String description;
     private Boolean available;
     private Long ownerId;
+    private LocalDateTime nextBooking;
+    private LocalDateTime lastBooking;
     private List<CommentDtoResponseItem> comments;
 }

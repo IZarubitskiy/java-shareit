@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ItemService {
-    Collection<ItemDtoResponseBooking> get(Long userId);
+    Collection<ItemDtoResponseSeek> get(Long userId);
 
     ItemDtoResponse add(Long userId, ItemDtoRequestCreate itemDtoRequestCreate);
 
@@ -15,7 +15,7 @@ public interface ItemService {
 
     Item getById(Long itemId);
 
-    ItemDtoResponseComment getItemWithCommentsById(Long itemId);
+    ItemDtoResponseSeek getItemWithCommentsById(Long itemId);
 
     List<ItemDtoResponse> getByString(String query);
 
