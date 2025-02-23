@@ -48,4 +48,12 @@ public class ItemController {
     public List<ItemDtoResponse> searchItems(@RequestParam String text) {
         return itemService.getByString(text);
     }
+
+    @PostMapping("/{itemId}/comment")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CommentDtoResponse addComment(@Valid @RequestBody CommentDtoRequestCreate commentDtoRequestCreate,
+                                         @PathVariable Long itemId,
+                                         @RequestHeader(value = "X-Sharer-User-Id") Long authorId) {
+        return itemService.addComment(commentDtoRequestCreate, itemId, authorId);
+    }
 }

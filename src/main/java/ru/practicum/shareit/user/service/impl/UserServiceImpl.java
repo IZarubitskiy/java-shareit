@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDtoResponse update(Long userId, UserDtoRequestUpdate userDtoRequestUpdate) {
         try {
-            User userFromBd = userMapper.toUserUpdate(userDtoRequestUpdate, userId);
+            User userFromBd = userMapper.toUser(getById(userId));
             if (userDtoRequestUpdate.getEmail() != null) {
                 userFromBd.setEmail(userFromBd.getEmail());
             }
