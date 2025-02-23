@@ -3,18 +3,16 @@ package ru.practicum.shareit.booking.service.impl;
 import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.dao.BookingRepository;
-import ru.practicum.shareit.booking.dto.BookingDtoCreateRequest;
+import ru.practicum.shareit.booking.dto.BookingDtoRequestCreate;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
+import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.State;
 import ru.practicum.shareit.booking.model.StatusBooking;
 import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.exceptions.exemption.AuthorizationException;
 import ru.practicum.shareit.exceptions.exemption.NotFoundException;
-import ru.practicum.shareit.item.dto.ItemDtoResponse;
-import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
@@ -35,11 +33,11 @@ public class BookingServiceImpl implements BookingService {
     private final UserMapper userMapper;
 
     @Override
-    public BookingDtoResponse createBooking(BookingDtoCreateRequest bookingDtoCreateRequest, Long bookerId) {
-        User booker = userMapper.responseToUser(userService.getById(bookerId));
-        Item item = itemService.getById(bookingDtoCreateRequest.getItemId());
+    public BookingDtoResponse createBooking(BookingDtoRequestCreate bookingDtoRequestCreate, Long bookerId) {
+        User booker = userMapper.toUser(userService.getById(bookerId));
+        Item item = itemService.getById(bookingDtoRequestCreate.getItemId());
 
-        Booking booking = bookingMapper.toBooking(bookingDtoCreateRequest, item, booker);
+        Booking booking = bookingMapper.toBooking(bookingDtoRequestCreate, item, booker);
         booking.setStatus(StatusBooking.WAITING);
         validateBooking(booking);
 

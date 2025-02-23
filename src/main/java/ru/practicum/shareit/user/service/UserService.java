@@ -1,13 +1,13 @@
 package ru.practicum.shareit.user.service;
 
-import ru.practicum.shareit.user.dto.UserDtoCreateRequest;
+import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
+import ru.practicum.shareit.user.dto.UserDtoRequestUpdate;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
-import ru.practicum.shareit.user.dto.UserDtoUpdateRequest;
 
 public interface UserService {
-    UserDtoResponse add(UserDtoCreateRequest userDtoCreateRequest);
+    UserDtoResponse add(UserDtoRequestCreate userDtoRequestCreate);
 
-    UserDtoResponse update(Long userId, UserDtoUpdateRequest userDtoUpdateRequest);
+    UserDtoResponse update(Long userId, UserDtoRequestUpdate userDtoRequestUpdate);
 
     UserDtoResponse getById(Long userId);
 

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingDtoCreateRequest {
+public class BookingDtoRequestCreate {
     private Long itemId;
 
     @NotNull(message = "Start date is required")

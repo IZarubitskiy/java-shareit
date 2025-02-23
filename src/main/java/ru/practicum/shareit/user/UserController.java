@@ -4,9 +4,9 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.user.dto.UserDtoCreateRequest;
+import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
+import ru.practicum.shareit.user.dto.UserDtoRequestUpdate;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
-import ru.practicum.shareit.user.dto.UserDtoUpdateRequest;
 import ru.practicum.shareit.user.service.impl.UserServiceImpl;
 
 @RestController
@@ -18,15 +18,15 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDtoResponse addUser(@Valid @RequestBody UserDtoCreateRequest userDtoCreateRequest) {
-        return userService.add(userDtoCreateRequest);
+    public UserDtoResponse addUser(@Valid @RequestBody UserDtoRequestCreate userDtoRequestCreate) {
+        return userService.add(userDtoRequestCreate);
     }
 
     @PatchMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDtoResponse updateUser(@Valid @RequestBody UserDtoUpdateRequest userDtoUpdateRequest,
+    public UserDtoResponse updateUser(@Valid @RequestBody UserDtoRequestUpdate userDtoRequestUpdate,
                                       @PathVariable Long userId) {
-        return userService.update(userId, userDtoUpdateRequest);
+        return userService.update(userId, userDtoRequestUpdate);
     }
 
     @GetMapping("/{userId}")

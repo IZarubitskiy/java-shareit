@@ -7,25 +7,40 @@ import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ItemMapper {
 
     @Mapping(target = "owner", source = "owner")
-    @Mapping(target = "name", source = "itemDtoCreateRequest.name")
-    Item toItemCreate(ItemDtoCreateRequest itemDtoCreateRequest, User owner);
+    @Mapping(target = "name", source = "itemDtoRequestCreate.name")
+    Item toItemCreate(ItemDtoRequestCreate itemDtoRequestCreate, User owner);
 
     @Mapping(target = "owner", source = "owner")
-    @Mapping(target = "name", source = "updateItemRequest.name")
-    @Mapping(target = "id", source = "id")
-    Item toItemUpdate(ItemDtoUpdateRequest itemDtoUpdateRequest, User owner, Long itemId);
+    @Mapping(target = "name", source = "itemDtoRequestUpdate.name")
+    @Mapping(target = "id", source = "itemId")
+    Item toItemUpdate(ItemDtoRequestUpdate itemDtoRequestUpdate, User owner, Long itemId);
 
     ItemDtoResponse toItemDtoResponse(Item item);
 
-    Item responseToItem(ItemDtoResponse itemDtoResponse, User user);
+    //   Item toItem(ItemDtoResponse itemDtoResponse, User user);
 
-    ItemWithCommentsDtoResponse toItemWithCommentsDtoRespoonse(ItemDtoResponse itemDtoResponse, List<CommentItemDtoResponse> comments);
+    @Mapping(target = "id", source = "item.id")
+    @Mapping(target = "comments", source = "comments")
+    @Mapping(target = "ownerId", source = "item.owner.id")
+    ItemDtoResponseComment toItemDtoResponseComment(Item item, List<CommentDtoResponseItem> comments);
+
+    @Mapping(target = "id", source = "item.id")
+    @Mapping(target = "comments", source = "comments")
+    @Mapping(target = "ownerId", source = "item.owner.id")
+    @Mapping(target = "nextBooking", source = "nextBooking")
+    @Mapping(target = "lastBooking", source = "lastBooking")
+    ItemDtoResponseBooking toItemDtoResponseBooking(Item item,
+                                                    List<CommentDtoResponseItem> comments,
+                                                    LocalDateTime nextBooking,
+                                                    LocalDateTime lastBooking);
+
 
 }
 

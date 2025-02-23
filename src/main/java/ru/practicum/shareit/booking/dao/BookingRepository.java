@@ -22,7 +22,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     Collection<Booking> findAllByBooker_IdAndStatusOrderByStartDateDesc(Long bookerId, StatusBooking status);
 
-
     Collection<Booking> findAllByItem_Owner_IdOrderByStartDateDesc(Long ownerId);
 
     @Query("SELECT b FROM Booking b WHERE b.item.owner.id = :ownerId AND b.startDate < CURRENT_TIMESTAMP AND b.endDate > CURRENT_TIMESTAMP ORDER BY b.startDate DESC")

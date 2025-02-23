@@ -4,10 +4,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.item.dto.ItemDtoCreateRequest;
-import ru.practicum.shareit.item.dto.ItemDtoResponse;
-import ru.practicum.shareit.item.dto.ItemDtoUpdateRequest;
-import ru.practicum.shareit.item.dto.ItemWithCommentsDtoResponse;
+import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.service.ItemService;
 
 import java.util.Collection;
@@ -21,28 +18,28 @@ public class ItemController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ItemDtoResponse createItem(@Valid @RequestBody ItemDtoCreateRequest itemDtoCreateRequest,
+    public ItemDtoResponse createItem(@Valid @RequestBody ItemDtoRequestCreate itemDtoRequestCreate,
                                       @RequestHeader(value = "X-Sharer-User-Id") Long ownerId) {
-        return itemService.add(ownerId, itemDtoCreateRequest);
+        return itemService.add(ownerId, itemDtoRequestCreate);
     }
 
     @PatchMapping("/{itemId}")
     @ResponseStatus(HttpStatus.OK)
-    public ItemDtoResponse updateItem(@Valid @RequestBody ItemDtoUpdateRequest itemDtoUpdateRequest,
+    public ItemDtoResponse updateItem(@Valid @RequestBody ItemDtoRequestUpdate itemDtoRequestUpdate,
                                       @PathVariable Long itemId,
                                       @RequestHeader(value = "X-Sharer-User-Id") Long ownerId) {
-        return itemService.update(ownerId, itemId, itemDtoUpdateRequest);
+        return itemService.update(ownerId, itemId, itemDtoRequestUpdate);
     }
 
     @GetMapping("/{itemId}")
     @ResponseStatus(HttpStatus.OK)
-    public ItemWithCommentsDtoResponse getItem(@PathVariable(required = false) Long itemId) {
+    public ItemDtoResponseComment getItem(@PathVariable(required = false) Long itemId) {
         return itemService.getItemWithCommentsById(itemId);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Collection<ItemWithCommentsDtoResponse> getAllUserItems(@RequestHeader(value = "X-Sharer-User-Id") Long ownerId) {
+    public Collection<ItemDtoResponseBooking> getAllUserItems(@RequestHeader(value = "X-Sharer-User-Id") Long ownerId) {
         return itemService.get(ownerId);
     }
 

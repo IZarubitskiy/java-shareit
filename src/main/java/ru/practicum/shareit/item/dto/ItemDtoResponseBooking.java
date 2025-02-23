@@ -12,8 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class ItemWithCommentsDtoResponse {
+public class ItemDtoResponseBooking {
     private Long id;
     private String name;
     private String description;
@@ -21,5 +20,5 @@ public class ItemWithCommentsDtoResponse {
     private Long ownerId;
     private LocalDateTime nextBooking;
     private LocalDateTime lastBooking;
-    private List<CommentDtoCreateResponse> comments;
+    private List<CommentDtoResponseItem> comments;
 }

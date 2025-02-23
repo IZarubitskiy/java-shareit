@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exceptions.exemption.DuplicationException;
 import ru.practicum.shareit.exceptions.exemption.NotFoundException;
 import ru.practicum.shareit.user.dao.UserRepository;
-import ru.practicum.shareit.user.dto.UserDtoCreateRequest;
+import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
+import ru.practicum.shareit.user.dto.UserDtoRequestUpdate;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
-import ru.practicum.shareit.user.dto.UserDtoUpdateRequest;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
@@ -21,13 +21,13 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public UserDtoResponse add(UserDtoCreateRequest userDtoCreateRequest) {
+    public UserDtoResponse add(UserDtoRequestCreate userDtoRequestCreate) {
         try {
-            User user = userMapper.toUserCreate(userDtoCreateRequest);
+            User user = userMapper.toUserCreate(userDtoRequestCreate);
             return userMapper.toUserDtoResponse(userRepository.save(user));
         } catch (DataIntegrityViolationException e) {
             if (e.getMessage().contains("users_email_key")) {
-                throw new DuplicationException(String.format("User with email %s already exists", userDtoCreateRequest.getEmail()));
+                throw new DuplicationException(String.format("User with email %s already exists", userDtoRequestCreate.getEmail()));
             } else {
                 throw e;
             }
@@ -35,19 +35,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDtoResponse update(Long userId, UserDtoUpdateRequest userDtoUpdateRequest) {
+    public UserDtoResponse update(Long userId, UserDtoRequestUpdate userDtoRequestUpdate) {
         try {
-            User userFromBd = userMapper.responseToUser(getById(userId));
-            if (userDtoUpdateRequest.getEmail() != null) {
+            User userFromBd = userMapper.toUserUpdate(userDtoRequestUpdate, userId);
+            if (userDtoRequestUpdate.getEmail() != null) {
                 userFromBd.setEmail(userFromBd.getEmail());
             }
-            if (userDtoUpdateRequest.getName() != null) {
+            if (userDtoRequestUpdate.getName() != null) {
                 userFromBd.setName(userFromBd.getName());
             }
             return userMapper.toUserDtoResponse(userRepository.save(userFromBd));
         } catch (DataIntegrityViolationException e) {
             if (e.getMessage().contains("users_email_key")) {
-                throw new DuplicationException(String.format("User with email %s already exists", userDtoUpdateRequest.getEmail()));
+                throw new DuplicationException(String.format("User with email %s already exists", userDtoRequestUpdate.getEmail()));
             } else {
                 throw e;
             }

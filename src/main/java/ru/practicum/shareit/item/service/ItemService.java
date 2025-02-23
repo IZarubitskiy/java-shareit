@@ -7,18 +7,18 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ItemService {
-    Collection<ItemWithCommentsDtoResponse> get(Long userId);
+    Collection<ItemDtoResponseBooking> get(Long userId);
 
-    ItemDtoResponse add(Long userId, ItemDtoCreateRequest itemDtoCreateRequest);
+    ItemDtoResponse add(Long userId, ItemDtoRequestCreate itemDtoRequestCreate);
 
-    ItemDtoResponse update(Long userId, Long itemId, ItemDtoUpdateRequest itemDtoUpdateRequest);
+    ItemDtoResponse update(Long userId, Long itemId, ItemDtoRequestUpdate itemDtoRequestUpdate);
 
     Item getById(Long itemId);
 
-    ItemWithCommentsDtoResponse getItemWithCommentsById(Long itemId);
+    ItemDtoResponseComment getItemWithCommentsById(Long itemId);
 
     List<ItemDtoResponse> getByString(String query);
 
-    CommentDtoCreateResponse addComment(CommentDtoCreateRequest commentDtoCreateRequest, Long itemId, Long authorId);
+    CommentDtoResponse addComment(CommentDtoRequestCreate commentDtoRequestCreate, Long itemId, Long authorId);
 
 }
