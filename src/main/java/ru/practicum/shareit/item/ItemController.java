@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.ItemDtoCreateRequest;
 import ru.practicum.shareit.item.dto.ItemDtoResponse;
 import ru.practicum.shareit.item.dto.ItemDtoUpdateRequest;
+import ru.practicum.shareit.item.dto.ItemWithCommentsDtoResponse;
 import ru.practicum.shareit.item.service.ItemService;
 
 import java.util.Collection;
@@ -35,13 +36,13 @@ public class ItemController {
 
     @GetMapping("/{itemId}")
     @ResponseStatus(HttpStatus.OK)
-    public ItemDtoResponse getItem(@PathVariable(required = false) Long itemId) {
-        return itemService.getById(itemId);
+    public ItemWithCommentsDtoResponse getItem(@PathVariable(required = false) Long itemId) {
+        return itemService.getItemWithCommentsById(itemId);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Collection<ItemDtoResponse> getAllUserItems(@RequestHeader(value = "X-Sharer-User-Id") Long ownerId) {
+    public Collection<ItemWithCommentsDtoResponse> getAllUserItems(@RequestHeader(value = "X-Sharer-User-Id") Long ownerId) {
         return itemService.get(ownerId);
     }
 

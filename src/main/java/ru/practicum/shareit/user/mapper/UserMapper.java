@@ -15,8 +15,10 @@ public interface UserMapper {
     User toUserCreate(UserDtoCreateRequest userDtoCreateRequest);
 
     @Mapping(target = "id", source = "id")
-    User toUserUpdate(UserDtoUpdateRequest userDtoUpdateRequest);
+    User toUserUpdate(UserDtoUpdateRequest userDtoUpdateRequest, Long id);
 
     UserDtoResponse toUserDtoResponse(User user);
+
+    User responseToUser(UserDtoResponse userDtoResponse);
 
 }
