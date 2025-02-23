@@ -11,7 +11,6 @@ import ru.practicum.shareit.exceptions.exemption.NotFoundException;
 
 import java.time.LocalDateTime;
 
-@Slf4j
 @RestControllerAdvice
 public class ErrorHandler {
     @ExceptionHandler
