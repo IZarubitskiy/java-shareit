@@ -39,10 +39,10 @@ public class UserServiceImpl implements UserService {
         try {
             User userFromBd = userMapper.toUser(getById(userId));
             if (userDtoRequestUpdate.getEmail() != null) {
-                userFromBd.setEmail(userFromBd.getEmail());
+                userFromBd.setEmail(userDtoRequestUpdate.getEmail());
             }
             if (userDtoRequestUpdate.getName() != null) {
-                userFromBd.setName(userFromBd.getName());
+                userFromBd.setName(userDtoRequestUpdate.getName());
             }
             return userMapper.toUserDtoResponse(userRepository.save(userFromBd));
         } catch (DataIntegrityViolationException e) {
