@@ -20,7 +20,7 @@ public class ItemRequest {
 
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User requester;
 
     @Column(name = "creation_date")

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class CommentDtoRequestCreate {
     @NotBlank(message = "Comment text is required")
     private String text;

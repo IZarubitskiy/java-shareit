@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class CommentDtoResponseItem {
     private Long id;
     private String text;

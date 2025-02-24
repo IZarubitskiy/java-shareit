@@ -12,7 +12,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class ItemDtoResponseSeek {
     private Long id;
     private String name;
