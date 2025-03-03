@@ -38,3 +38,4 @@ public class ItemRequestController {
     public ResponseEntity<Object> getRequestById(@PathVariable Long requestId) {
         return requestClient.findRequestById(requestId);
     }
+}
