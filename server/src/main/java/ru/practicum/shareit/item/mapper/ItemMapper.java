@@ -17,7 +17,7 @@ public interface ItemMapper {
     @Mapping(target = "owner", source = "owner")
     @Mapping(target = "name", source = "itemDtoRequestCreate.name")
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "request", source = "itemRequest")
+    @Mapping(target = "itemRequest", source = "itemRequest")
     @Mapping(target = "description", source = "itemDtoRequestCreate.description")
     Item toItemCreate(ItemDtoRequestCreate itemDtoRequestCreate, User owner, ItemRequest itemRequest);
 
@@ -27,7 +27,7 @@ public interface ItemMapper {
     Item toItemUpdate(ItemDtoRequestUpdate itemDtoRequestUpdate, User owner, Long itemId);
 
     @Mapping(target = "ownerId", source = "owner.id")
-    @Mapping(target = "requestId", source = "request.id")
+    @Mapping(target = "requestId", source = "itemRequest.id")
     ItemDtoResponse toItemDtoResponse(Item item);
 
     @Mapping(target = "id", source = "item.id")
