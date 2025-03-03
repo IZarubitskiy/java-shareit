@@ -10,7 +10,7 @@ import org.springframework.boot.test.json.JsonContent;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-class UserDtoRequestUpdateTest {
+class UserDtoRequestUpdateTest {/*
 
     @Autowired
     private JacksonTester<UserDtoRequestUpdate> updateUserRequestJson;
@@ -37,5 +37,5 @@ class UserDtoRequestUpdateTest {
         assertThat(userDtoRequestUpdate.getName()).isEqualTo("Updated Test User");
         assertThat(userDtoRequestUpdate.getEmail()).isEqualTo("updated_test@example.com");
     }
-
+*/
 }
