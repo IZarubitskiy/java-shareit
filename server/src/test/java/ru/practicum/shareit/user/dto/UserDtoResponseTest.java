@@ -1,33 +1,42 @@
 package ru.practicum.shareit.user.dto;
 
-class UserDtoResponseTest {/*
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.JsonTest;
+import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.boot.test.json.JsonContent;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@JsonTest
+class UserDtoResponseTest {
 
     @Autowired
     private JacksonTester<UserDtoResponse> userResponseJson;
 
     @Test
     void testUserResponseSerialization() throws Exception {
-        UserDtoResponse userDtoResponse = UserDtoResponse.builder()
+        UserDtoResponse userResponse = UserDtoResponse.builder()
                 .id(1L)
                 .name("Test User")
                 .email("test@example.com")
                 .build();
 
-        JsonContent<UserDtoResponse> json = userResponseJson.write(userDtoResponse);
+        JsonContent<UserDtoResponse> json = userResponseJson.write(userResponse);
 
-        Assertions.assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(1);
-        Assertions.assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test User");
-        Assertions.assertThat(json).extractingJsonPathStringValue("$.email").isEqualTo("test@example.com");
+        assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(1);
+        assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test User");
+        assertThat(json).extractingJsonPathStringValue("$.email").isEqualTo("test@example.com");
     }
 
     @Test
     void testUserResponseDeserialization() throws Exception {
-        String jsonContent = "{\"id\":1,\"name\":\"Test User\",\"email\":\"test@example.com\"}";
+            String jsonContent = "{\"id\":1,\"name\":\"Test User\",\"email\":\"test@example.com\"}";
 
-        UserDtoResponse userDtoResponse = userResponseJson.parseObject(jsonContent);
+            UserDtoResponse userResponse = userResponseJson.parseObject(jsonContent);
 
-        assertThat(userDtoResponse.getId()).isEqualTo(1L);
-        assertThat(userDtoResponse.getName()).isEqualTo("Test User");
-        assertThat(userDtoResponse.getEmail()).isEqualTo("test@example.com");
-    }*/
+            assertThat(userResponse.getId()).isEqualTo(1L);
+            assertThat(userResponse.getName()).isEqualTo("Test User");
+            assertThat(userResponse.getEmail()).isEqualTo("test@example.com");
+    }
 }

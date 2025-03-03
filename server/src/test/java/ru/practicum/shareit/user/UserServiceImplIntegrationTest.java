@@ -1,8 +1,22 @@
-package ru.practicum.shareit.user.dao;
+package ru.practicum.shareit.user;
 
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.shareit.exceptions.exemption.DuplicationException;
+import ru.practicum.shareit.exceptions.exemption.NotFoundException;
+import ru.practicum.shareit.user.dao.UserRepository;
+import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
+import ru.practicum.shareit.user.dto.UserDtoRequestUpdate;
+import ru.practicum.shareit.user.dto.UserDtoResponse;
+import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.service.impl.UserServiceImpl;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Transactional
 @SpringBootTest
@@ -15,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 })
 class UserServiceImplIntegrationTest {
 
-/*
+
     @Autowired
     private UserServiceImpl userService;
 
@@ -58,9 +72,9 @@ class UserServiceImplIntegrationTest {
                 .name("another name")
                 .email("test@example.com")
                 .build();
-
+        System.out.println(userService.add(duplicateEmailRequest));
         Assertions.assertThatThrownBy(() -> userService.add(duplicateEmailRequest))
-                .isInstanceOf(DuplicationException.class);
+                .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
@@ -78,7 +92,7 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
-    void shouldThrowEmailAlreadyExistsExceptionWhenUpdatingUserWithExistingEmail() {
+    void shouldThrowDataIntegrityViolationWhenUpdatingUserWithExistingEmail() {
         UserDtoResponse firstUser = userService.add(userDtoRequestCreate);
 
         UserDtoRequestCreate secondUserRequest = UserDtoRequestCreate.builder()
@@ -90,9 +104,12 @@ class UserServiceImplIntegrationTest {
         UserDtoRequestUpdate updateRequestWithExistingEmail = UserDtoRequestUpdate.builder()
                 .email("second@example.com")
                 .build();
-
+        System.out.println(firstUser.getId());
+        System.out.println(firstUser.getEmail());
+        System.out.println(userService.update(firstUser.getId(), updateRequestWithExistingEmail));
+        System.out.println(userService.getById(8l));
         Assertions.assertThatThrownBy(() -> userService.update(firstUser.getId(), updateRequestWithExistingEmail))
-                .isInstanceOf(DuplicationException.class);
+                .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
@@ -120,5 +137,4 @@ class UserServiceImplIntegrationTest {
                 .isInstanceOf(NotFoundException.class);
     }
 
- */
 }

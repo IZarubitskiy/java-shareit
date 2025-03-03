@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
 import ru.practicum.shareit.user.dto.UserDtoRequestUpdate;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
+import ru.practicum.shareit.user.service.UserService;
 import ru.practicum.shareit.user.service.impl.UserServiceImpl;
 
 @RestController
@@ -14,7 +15,7 @@ import ru.practicum.shareit.user.service.impl.UserServiceImpl;
 @RequestMapping(path = "/users")
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

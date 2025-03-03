@@ -149,7 +149,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDtoResponse> getItemsByRequestIds(List<Long> requestIds) {
-        return itemRepository.findItemsByRequest_IdIn(requestIds).stream()
+        return itemRepository.findItemsByItemRequest_IdIn(requestIds).stream()
                 .map(itemMapper::toItemDtoResponse)
                 .toList();
     }

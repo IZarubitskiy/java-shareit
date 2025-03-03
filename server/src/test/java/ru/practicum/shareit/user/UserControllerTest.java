@@ -1,11 +1,24 @@
 package ru.practicum.shareit.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
+import ru.practicum.shareit.user.dto.UserDtoRequestUpdate;
+import ru.practicum.shareit.user.dto.UserDtoResponse;
+import ru.practicum.shareit.user.service.UserService;
 
 // надо применить Before Each
 
 @WebMvcTest(UserController.class)
-class UserControllerTest {/*
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -90,5 +103,4 @@ class UserControllerTest {/*
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-*/
 }

@@ -1,9 +1,16 @@
 package ru.practicum.shareit.user.dto;
 
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
+import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.boot.test.json.JsonContent;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @JsonTest
-class UserDtoRequestUpdateTest {/*
+class UserDtoRequestUpdateTest {
 
     @Autowired
     private JacksonTester<UserDtoRequestUpdate> updateUserRequestJson;
@@ -30,5 +37,5 @@ class UserDtoRequestUpdateTest {/*
         assertThat(userDtoRequestUpdate.getName()).isEqualTo("Updated Test User");
         assertThat(userDtoRequestUpdate.getEmail()).isEqualTo("updated_test@example.com");
     }
-*/
+
 }
