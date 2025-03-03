@@ -17,7 +17,7 @@ public interface ItemMapper {
     @Mapping(target = "owner", source = "owner")
     @Mapping(target = "name", source = "itemDtoRequestCreate.name")
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "request", source = "request")
+    @Mapping(target = "request", source = "itemRequest")
     @Mapping(target = "description", source = "itemDtoRequestCreate.description")
     Item toItemCreate(ItemDtoRequestCreate itemDtoRequestCreate, User owner, ItemRequest itemRequest);
 
