@@ -22,7 +22,7 @@ class BookingDtoResponseTest {
     @Test
     void testBookingResponseSerialization() throws Exception {
         LocalDateTime start = LocalDateTime.of(2025, 10, 1, 12, 0);
-        LocalDateTime end = LocalDateTime.of(2023, 10, 2, 12, 0);
+        LocalDateTime end = LocalDateTime.of(22023, 10, 2, 12, 0);
 
         ItemDtoResponse item = ItemDtoResponse.builder()
                 .id(1L)
