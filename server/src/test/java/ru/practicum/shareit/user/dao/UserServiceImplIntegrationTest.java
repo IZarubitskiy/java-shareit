@@ -1,20 +1,8 @@
 package ru.practicum.shareit.user.dao;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.exceptions.exemption.DuplicationException;
-import ru.practicum.shareit.exceptions.exemption.NotFoundException;
-import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
-import ru.practicum.shareit.user.dto.UserDtoRequestUpdate;
-import ru.practicum.shareit.user.dto.UserDtoResponse;
-import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.service.impl.UserServiceImpl;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
 @SpringBootTest
