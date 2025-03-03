@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import ru.practicum.shareit.user.model.User;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,10 +21,11 @@ public class ItemRequest {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "requester_id", nullable = false)
     private User requester;
 
-    @Column(name = "creation_date")
-    private LocalDate creationDate;
+    @Column(name = "creation_date", nullable = false)
+    private LocalDateTime creationDate;
 
     @Override
     public boolean equals(Object o) {

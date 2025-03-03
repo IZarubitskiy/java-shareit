@@ -1,16 +1,13 @@
 package ru.practicum.shareit.request;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.request.dto.ItemRequestDtoRequestCreate;
 import ru.practicum.shareit.request.dto.ItemRequestDtoResponse;
+import ru.practicum.shareit.request.dto.ItemRequestDtoResponseWithAnswers;
 import ru.practicum.shareit.request.service.ItemRequestService;
-import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
-import ru.practicum.shareit.user.dto.UserDtoRequestUpdate;
-import ru.practicum.shareit.user.dto.UserDtoResponse;
-import ru.practicum.shareit.user.service.impl.UserServiceImpl;
+
 import java.util.Collection;
 
 @RestController
@@ -22,15 +19,16 @@ public class ItemRequestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ItemRequestDtoResponse addRequest(@Valid @RequestBody ItemRequestDtoRequestCreate itemRequestDtoRequestCreate) {
-        return itemRequestService.add(itemRequestDtoRequestCreate);
+    public ItemRequestDtoResponse createRequest(@RequestBody ItemRequestDtoRequestCreate itemRequestDtoRequestCreate,
+                                                @RequestHeader(name = "X-Sharer-User-Id") Long requesterId) {
+
+        return itemRequestService.add(itemRequestDtoRequestCreate, requesterId);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Collection<ItemRequestDtoResponse> get(@Valid @RequestBody UserDtoRequestUpdate userDtoRequestUpdate,
-                                                 @PathVariable Long userId) {
-        return itemRequestService.get(userId);
+    public Collection<ItemRequestDtoResponseWithAnswers> get(@RequestHeader(value = "X-Sharer-User-Id") Long requesterId) {
+        return itemRequestService.get(requesterId);
     }
 
     @GetMapping("/all")
@@ -39,9 +37,9 @@ public class ItemRequestController {
         return itemRequestService.getAll(userId);
     }
 
-    @DeleteMapping("/{userId}")
+    @GetMapping("/{requestId}")
     @ResponseStatus(HttpStatus.OK)
-    public void ItemRequestDtoResponse(@PathVariable Long userId) {
-        itemRequestService.getById(userId);
+    public ItemRequestDtoResponseWithAnswers ItemRequestDtoResponse(@PathVariable Long requestId) {
+        return itemRequestService.getById(requestId);
     }
 }

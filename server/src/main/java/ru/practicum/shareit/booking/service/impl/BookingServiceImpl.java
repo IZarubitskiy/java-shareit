@@ -15,7 +15,7 @@ import ru.practicum.shareit.exceptions.exemption.AuthorizationException;
 import ru.practicum.shareit.exceptions.exemption.NotFoundException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.ItemService;
-import ru.practicum.shareit.user.dto.UserDtoResponse;
+import ru.practicum.shareit.user.UserDtoResponse;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;

@@ -14,5 +14,7 @@ public class ItemDtoResponse {
     private String name;
     private String description;
     private Boolean available;
+    private Long ownerId;
+    private Long requestId;
 }
 

@@ -15,6 +15,8 @@ import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.ItemService;
+import ru.practicum.shareit.request.dao.ItemRequestRepository;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
@@ -36,11 +38,20 @@ public class ItemServiceImpl implements ItemService {
     private final UserMapper userMapper;
     private final CommentMapper commentMapper;
     private final BookingRepository bookingRepository;
+    private final ItemRequestRepository itemRequestRepository;
 
     @Override
     public ItemDtoResponse add(Long userId, ItemDtoRequestCreate itemDtoRequestCreate) {
         User user = userMapper.toUser(userService.getById(userId));
-        Item item = itemMapper.toItemCreate(itemDtoRequestCreate, user);
+        Item item;
+        if (itemDtoRequestCreate.getRequestId().isPresent()) {
+            ItemRequest request = itemRequestRepository.findById(itemDtoRequestCreate.getRequestId().get()).orElseThrow(
+                    () -> new NotFoundException("Request not found")
+            );
+            item = itemMapper.toItemCreate(itemDtoRequestCreate, user, request);
+        } else {
+            item = itemMapper.toItemCreate(itemDtoRequestCreate, user, null);
+        }
         return itemMapper.toItemDtoResponse(itemRepository.save(item));
     }
 
@@ -105,7 +116,7 @@ public class ItemServiceImpl implements ItemService {
         List<Comment> comments = commentRepository.findAllByItem_Id(itemId);
         List<CommentDtoResponseItem> itemComments = comments.stream().map(commentMapper::toItemCommentDtoResponse).toList();
 
-        return itemMapper.toItemDtoResponseSeek(item, itemComments,null, null);
+        return itemMapper.toItemDtoResponseSeek(item, itemComments, null, null);
     }
 
     @Override
@@ -116,7 +127,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item getById(Long itemId) {
         return itemRepository.findById(itemId)
-                .orElseThrow(() -> new NotFoundException(String.format("User with id %d not found", itemId)));
+                .orElseThrow(() -> new NotFoundException(String.format("Item with id %d not found", itemId)));
     }
 
     @Override
@@ -134,6 +145,13 @@ public class ItemServiceImpl implements ItemService {
                 commentRepository.save(comment),
                 itemMapper.toItemDtoResponse(item),
                 author.getName());
+    }
+
+    @Override
+    public List<ItemDtoResponse> getItemsByRequestIds(List<Long> requestIds) {
+        return itemRepository.findItemsByRequest_IdIn(requestIds).stream()
+                .map(itemMapper::toItemDtoResponse)
+                .toList();
     }
 
 }

@@ -4,9 +4,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
-import ru.practicum.shareit.user.dto.UserDtoRequestUpdate;
-import ru.practicum.shareit.user.dto.UserDtoResponse;
 import ru.practicum.shareit.user.service.impl.UserServiceImpl;
 
 @RestController
@@ -18,7 +15,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDtoResponse addUser(@Valid @RequestBody UserDtoRequestCreate userDtoRequestCreate) {
+    public UserDtoResponse createUser(@Valid @RequestBody UserDtoRequestCreate userDtoRequestCreate) {
         return userService.add(userDtoRequestCreate);
     }
 

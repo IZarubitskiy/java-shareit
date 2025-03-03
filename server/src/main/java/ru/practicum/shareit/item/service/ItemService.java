@@ -21,4 +21,6 @@ public interface ItemService {
 
     CommentDtoResponse addComment(CommentDtoRequestCreate commentDtoRequestCreate, Long itemId, Long authorId);
 
+    List<ItemDtoResponse> getItemsByRequestIds(List<Long> requestIds);
+
 }

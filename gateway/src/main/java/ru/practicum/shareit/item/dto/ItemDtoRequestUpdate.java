@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDtoRequestCreate {
-    private String text;
+public class ItemDtoRequestUpdate {
+    private String name;
+    private String description;
+    private Boolean available;
 }
