@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
             return userMapper.toUserDtoResponse(userRepository.save(userFromBd));
         } catch (DataIntegrityViolationException e) {
             if (e.getMessage().contains("users_email_key")) {
-                throw new DuplicationException(String.format("User with email %s already exists", userDtoRequestUpdate.getEmail()));
+                throw new DuplicationException(String.format("User with afsdfasdfasdfasdfasd %s already exists", userDtoRequestUpdate.getEmail()));
             } else {
                 throw e;
             }
