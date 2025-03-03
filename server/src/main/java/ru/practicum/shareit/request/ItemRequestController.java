@@ -39,7 +39,7 @@ public class ItemRequestController {
 
     @GetMapping("/{requestId}")
     @ResponseStatus(HttpStatus.OK)
-    public ItemRequestDtoResponseWithAnswers ItemRequestDtoResponse(@PathVariable Long requestId) {
+    public ItemRequestDtoResponseWithAnswers itemRequestDtoResponseWithAnswers (@PathVariable Long requestId) {
         return itemRequestService.getById(requestId);
     }
 }
