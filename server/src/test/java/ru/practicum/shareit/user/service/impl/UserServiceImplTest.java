@@ -47,7 +47,7 @@ public class UserServiceImplTest {
 
         userDtoRequestCreate = UserDtoRequestCreate.builder().name("Test Name").email("test@example.com").build();
         userDtoRequestUpdate = UserDtoRequestUpdate.builder().name("Updated Name").email("updated@example.com").build();
-        userDtoResponseUpdated = UserDtoResponse.builder().id(1L).name("Test Name").email("test@example.com").build();
+        userDtoResponseCreated = UserDtoResponse.builder().id(1L).name("Test Name").email("test@example.com").build();
 
         updatedUser = new User();
         updatedUser.setId(1L);
