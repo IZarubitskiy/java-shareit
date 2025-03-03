@@ -1,6 +1,9 @@
 package ru.practicum.shareit.user.model;
 
-class UserTest {/*
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+class UserTest {
     @Test
     void testEquals() {
         User user1 = new User();
@@ -26,5 +29,5 @@ class UserTest {/*
 
         Assertions.assertEquals(user1.hashCode(), user2.hashCode());
     }
-*/
+
 }
