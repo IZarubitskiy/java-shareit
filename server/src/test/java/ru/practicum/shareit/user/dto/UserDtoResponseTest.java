@@ -12,17 +12,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserDtoResponseTest {
 
     @Autowired
-    private JacksonTester<UserDtoResponse> userResponseJson;
+    private JacksonTester<UserDtoResponse> userDtoResponseJacksonTester;
 
     @Test
-    void testUserResponseSerialization() throws Exception {
-        UserDtoResponse userResponse = UserDtoResponse.builder()
+    void testUserDtoResponseSerialization() throws Exception {
+        UserDtoResponse userDtoResponse = UserDtoResponse.builder()
                 .id(1L)
                 .name("Test User")
                 .email("test@example.com")
                 .build();
 
-        JsonContent<UserDtoResponse> json = userResponseJson.write(userResponse);
+        JsonContent<UserDtoResponse> json = userDtoResponseJacksonTester.write(userDtoResponse);
 
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(1);
         assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test User");
@@ -30,13 +30,13 @@ class UserDtoResponseTest {
     }
 
     @Test
-    void testUserResponseDeserialization() throws Exception {
+    void testUserDtoResponseDeserialization() throws Exception {
         String jsonContent = "{\"id\":1,\"name\":\"Test User\",\"email\":\"test@example.com\"}";
 
-        UserDtoResponse userResponse = userResponseJson.parseObject(jsonContent);
+        UserDtoResponse userDtoResponse = userDtoResponseJacksonTester.parseObject(jsonContent);
 
-        assertThat(userResponse.getId()).isEqualTo(1L);
-        assertThat(userResponse.getName()).isEqualTo("Test User");
-        assertThat(userResponse.getEmail()).isEqualTo("test@example.com");
+        assertThat(userDtoResponse.getId()).isEqualTo(1L);
+        assertThat(userDtoResponse.getName()).isEqualTo("Test User");
+        assertThat(userDtoResponse.getEmail()).isEqualTo("test@example.com");
     }
 }

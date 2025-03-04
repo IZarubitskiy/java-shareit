@@ -8,7 +8,6 @@ import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
 import ru.practicum.shareit.user.dto.UserDtoRequestUpdate;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
 import ru.practicum.shareit.user.service.UserService;
-import ru.practicum.shareit.user.service.impl.UserServiceImpl;
 
 @RestController
 @AllArgsConstructor

@@ -28,7 +28,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 })
 class UserServiceImplIntegrationTest {
 
-
     @Autowired
     private UserServiceImpl userService;
 
@@ -64,7 +63,7 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
-    void shouldThrowEmailAlreadyExistsExceptionWhenCreatingUserWithExistingEmail() {
+    void shouldThrowDuplicationExceptionWhenCreatingUserWithExistingEmail() {
         userService.add(userDtoRequestCreate);
 
         UserDtoRequestCreate duplicateEmailRequest = UserDtoRequestCreate.builder()
