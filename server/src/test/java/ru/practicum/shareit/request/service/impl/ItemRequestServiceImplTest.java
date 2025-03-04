@@ -53,13 +53,13 @@ class ItemRequestServiceImplTest {
     @InjectMocks
     private ItemRequestServiceImpl itemRequestService;
 
-    private User user;
-    private UserDtoResponse userDtoResponse;
-    private ItemRequest itemRequest;
-    private ItemRequestDtoRequestCreate itemRequestDtoRequestCreate;
-    private ItemRequestDtoResponse itemRequestDtoResponse;
-    private ItemRequestDtoResponseWithAnswers requestWithAnswersResponse;
-    private ItemDtoResponse itemDtoResponse;
+    private final User user;
+    private final UserDtoResponse userDtoResponse;
+    private final ItemRequest itemRequest;
+    private final ItemRequestDtoRequestCreate itemRequestDtoRequestCreate;
+    private final ItemRequestDtoResponse itemRequestDtoResponse;
+    private final ItemRequestDtoResponseWithAnswers requestWithAnswersResponse;
+    private final ItemDtoResponse itemDtoResponse;
 
     public ItemRequestServiceImplTest() {
         user = new User();

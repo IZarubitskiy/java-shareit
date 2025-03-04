@@ -23,7 +23,6 @@ import ru.practicum.shareit.user.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -78,7 +77,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Collection<ItemDtoResponseSeek> get(Long userId) {
+    public List<ItemDtoResponseSeek> get(Long userId) {
         List<Item> items = itemRepository.findItemsByOwnerId(userId);
         List<Booking> bookings = new ArrayList<>(bookingRepository.findAllByItem_Owner_IdOrderByStartDateDesc(userId));
         List<Comment> comments = commentRepository.findAllByItem_Owner_Id(userId);
