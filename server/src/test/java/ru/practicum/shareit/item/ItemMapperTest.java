@@ -1,10 +1,11 @@
-package ru.practicum.shareit.item.mapper;
+package ru.practicum.shareit.item;
 
 
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import ru.practicum.shareit.item.dto.ItemDtoResponse;
 import ru.practicum.shareit.item.dto.ItemDtoResponseSeek;
+import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
 
 public class ItemMapperTest {

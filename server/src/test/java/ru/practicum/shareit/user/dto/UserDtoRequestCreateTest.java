@@ -13,26 +13,26 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class UserDtoRequestCreateTest {
 
     @Autowired
-    private JacksonTester<UserDtoRequestCreate> createUserRequestJson;
+    private JacksonTester<UserDtoRequestCreate> userDtoRequestCreateJacksonTester;
 
     @Test
-    void testCreateUserRequestSerialization() throws Exception {
+    void testUserDtoRequestCreateSerialization() throws Exception {
         UserDtoRequestCreate userDtoRequestCreate = UserDtoRequestCreate.builder()
                 .name("Test User")
                 .email("test@example.com")
                 .build();
 
-        JsonContent<UserDtoRequestCreate> json = createUserRequestJson.write(userDtoRequestCreate);
+        JsonContent<UserDtoRequestCreate> json = userDtoRequestCreateJacksonTester.write(userDtoRequestCreate);
 
         Assertions.assertThat(json).extractingJsonPathStringValue("$.name").isEqualTo("Test User");
         Assertions.assertThat(json).extractingJsonPathStringValue("$.email").isEqualTo("test@example.com");
     }
 
     @Test
-    void testCreateUserRequestDeserialization() throws Exception {
+    void testUserDtoRequestCreateDeserialization() throws Exception {
         String jsonContent = "{\"name\":\"Test User\",\"email\":\"test@example.com\"}";
 
-        UserDtoRequestCreate userDtoRequestCreate = createUserRequestJson.parseObject(jsonContent);
+        UserDtoRequestCreate userDtoRequestCreate = userDtoRequestCreateJacksonTester.parseObject(jsonContent);
 
         assertThat(userDtoRequestCreate.getName()).isEqualTo("Test User");
         assertThat(userDtoRequestCreate.getEmail()).isEqualTo("test@example.com");

@@ -15,8 +15,6 @@ import ru.practicum.shareit.user.dto.UserDtoRequestUpdate;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
 import ru.practicum.shareit.user.service.UserService;
 
-// надо применить Before Each
-
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 
