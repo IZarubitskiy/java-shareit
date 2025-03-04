@@ -1,4 +1,4 @@
-package ru.practicum.shareit.user.server;
+package ru.practicum.shareit.user;
 
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.practicum.shareit.exceptions.exemption.DuplicationException;
 import ru.practicum.shareit.exceptions.exemption.NotFoundException;
 import ru.practicum.shareit.user.dao.UserRepository;
 import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
@@ -66,12 +67,12 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void shouldThrowEmailAlreadyExistsExceptionWhenCreatingUserWithExistingEmail() {
-       /* Mockito.when(userRepository.save(ArgumentMatchers.any(String.class))).thenReturn(true);
+    void shouldThrowDuplicationExemptionWhenCreatingUserWithExistingEmail() {
+        Mockito.when(userRepository.existsByEmail(ArgumentMatchers.any(String.class))).thenReturn(true);
         AssertionsForClassTypes.assertThatThrownBy(() -> userService.add(userDtoRequestCreate))
                 .isInstanceOf(DuplicationException.class);
         Mockito.verify(userRepository, Mockito.never()).save(ArgumentMatchers.any(User.class));
-        Mockito.verify(userRepository, Mockito.times(1)).existsByEmail(ArgumentMatchers.any(String.class));*/
+        Mockito.verify(userRepository, Mockito.times(1)).existsByEmail(ArgumentMatchers.any(String.class));
     }
 
     @Test
@@ -85,16 +86,13 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void shouldThrowEmailAlreadyExistsExceptionWhenUpdatingUserWithExistingEmail() {
-        /*
-        // Mockito.when(userRepository.existsByEmail(ArgumentMatchers.any(String.class))).thenReturn(true);
+    void shouldThrowDuplicationExemptionWhenUpdatingUserWithExistingEmail() {
+        Mockito.when(userRepository.existsByEmail(ArgumentMatchers.any(String.class))).thenReturn(true);
         AssertionsForClassTypes.assertThatThrownBy(() -> userService.update(user.getId(), userDtoRequestUpdate))
                 .isInstanceOf(DuplicationException.class);
         Mockito.verify(userRepository, Mockito.never()).findById(ArgumentMatchers.anyLong());
         Mockito.verify(userRepository, Mockito.never()).save(ArgumentMatchers.any(User.class));
-        //Mockito.verify(userRepository, Mockito.times(1)).existsByEmail(ArgumentMatchers.any(String.class));
-
-         */
+        Mockito.verify(userRepository, Mockito.times(1)).existsByEmail(ArgumentMatchers.any(String.class));
     }
 
     @Test
