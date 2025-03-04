@@ -1,7 +1,6 @@
 package ru.practicum.shareit.user.service.impl;
 
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exceptions.exemption.DuplicationException;
 import ru.practicum.shareit.exceptions.exemption.NotFoundException;
@@ -29,8 +28,8 @@ public class UserServiceImpl implements UserService {
             );
         }
 
-            User user = userMapper.toUserCreate(userDtoRequestCreate);
-            return userMapper.toUserDtoResponse(userRepository.save(user));
+        User user = userMapper.toUserCreate(userDtoRequestCreate);
+        return userMapper.toUserDtoResponse(userRepository.save(user));
     }
 
     @Override
@@ -49,7 +48,7 @@ public class UserServiceImpl implements UserService {
         if (userDtoRequestUpdate.getName() != null) {
             userFromBd.setName(userDtoRequestUpdate.getName());
         }
-            return userMapper.toUserDtoResponse(userRepository.save(userFromBd));
+        return userMapper.toUserDtoResponse(userRepository.save(userFromBd));
     }
 
     @Override

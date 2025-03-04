@@ -4,7 +4,6 @@ import ru.practicum.shareit.request.dto.ItemRequestDtoRequestCreate;
 import ru.practicum.shareit.request.dto.ItemRequestDtoResponse;
 import ru.practicum.shareit.request.dto.ItemRequestDtoResponseWithAnswers;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface ItemRequestService {
