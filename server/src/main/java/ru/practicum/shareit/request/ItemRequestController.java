@@ -33,8 +33,8 @@ public class ItemRequestController {
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<ItemRequestDtoResponse> geAll(@PathVariable Long userId) {
-        return itemRequestService.getAll(userId);
+    public Collection<ItemRequestDtoResponse> geAll() {
+        return itemRequestService.getAll();
     }
 
     @GetMapping("/{requestId}")

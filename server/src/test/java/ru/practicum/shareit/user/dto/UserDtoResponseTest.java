@@ -31,12 +31,12 @@ class UserDtoResponseTest {
 
     @Test
     void testUserResponseDeserialization() throws Exception {
-            String jsonContent = "{\"id\":1,\"name\":\"Test User\",\"email\":\"test@example.com\"}";
+        String jsonContent = "{\"id\":1,\"name\":\"Test User\",\"email\":\"test@example.com\"}";
 
-            UserDtoResponse userResponse = userResponseJson.parseObject(jsonContent);
+        UserDtoResponse userResponse = userResponseJson.parseObject(jsonContent);
 
-            assertThat(userResponse.getId()).isEqualTo(1L);
-            assertThat(userResponse.getName()).isEqualTo("Test User");
-            assertThat(userResponse.getEmail()).isEqualTo("test@example.com");
+        assertThat(userResponse.getId()).isEqualTo(1L);
+        assertThat(userResponse.getName()).isEqualTo("Test User");
+        assertThat(userResponse.getEmail()).isEqualTo("test@example.com");
     }
 }

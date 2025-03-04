@@ -5,13 +5,14 @@ import ru.practicum.shareit.request.dto.ItemRequestDtoResponse;
 import ru.practicum.shareit.request.dto.ItemRequestDtoResponseWithAnswers;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface ItemRequestService {
     ItemRequestDtoResponse add(ItemRequestDtoRequestCreate itemRequestDtoRequestCreate, Long requesterId);
 
-    Collection<ItemRequestDtoResponseWithAnswers> get(Long requesterId);
+    List<ItemRequestDtoResponseWithAnswers> get(Long requesterId);
 
-    Collection<ItemRequestDtoResponse> getAll(Long requesterId);
+    List<ItemRequestDtoResponse> getAll();
 
     ItemRequestDtoResponseWithAnswers getById(Long requestId);
 

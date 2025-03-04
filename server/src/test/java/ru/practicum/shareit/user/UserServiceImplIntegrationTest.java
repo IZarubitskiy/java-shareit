@@ -4,7 +4,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exceptions.exemption.DuplicationException;
@@ -72,9 +71,8 @@ class UserServiceImplIntegrationTest {
                 .name("another name")
                 .email("test@example.com")
                 .build();
-        System.out.println(userService.add(duplicateEmailRequest));
         Assertions.assertThatThrownBy(() -> userService.add(duplicateEmailRequest))
-                .isInstanceOf(DataIntegrityViolationException.class);
+                .isInstanceOf(DuplicationException.class);
     }
 
     @Test
@@ -104,12 +102,9 @@ class UserServiceImplIntegrationTest {
         UserDtoRequestUpdate updateRequestWithExistingEmail = UserDtoRequestUpdate.builder()
                 .email("second@example.com")
                 .build();
-        System.out.println(firstUser.getId());
-        System.out.println(firstUser.getEmail());
-        System.out.println(userService.update(firstUser.getId(), updateRequestWithExistingEmail));
-        System.out.println(userService.getById(8l));
+
         Assertions.assertThatThrownBy(() -> userService.update(firstUser.getId(), updateRequestWithExistingEmail))
-                .isInstanceOf(DataIntegrityViolationException.class);
+                .isInstanceOf(DuplicationException.class);
     }
 
     @Test

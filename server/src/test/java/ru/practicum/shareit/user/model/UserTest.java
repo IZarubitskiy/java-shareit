@@ -1,8 +1,7 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.practicum.shareit.user.model.User;
 
 class UserTest {
     @Test
