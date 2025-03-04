@@ -18,6 +18,7 @@ public class ItemMapperTest {
         item = itemMapper.toItemUpdate(null, null, null);
         ItemDtoResponse itemResponse = itemMapper.toItemDtoResponse(null);
         ItemDtoResponseSeek itemResponseBookingComments = itemMapper.toItemDtoResponseSeek(null, null, null, null);
+
     }
 
 }
