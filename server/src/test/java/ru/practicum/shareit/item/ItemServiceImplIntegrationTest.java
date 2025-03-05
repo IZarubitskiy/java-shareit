@@ -3,7 +3,6 @@ package ru.practicum.shareit.item;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.engine.support.descriptor.DirectorySource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -137,7 +136,6 @@ class ItemServiceImplIntegrationTest {
         assertThat(savedItem.getDescription()).isEqualTo("new item description");
         assertThat(savedItem.getAvailable()).isTrue();
     }
-
 
 
     @Test
