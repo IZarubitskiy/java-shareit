@@ -15,6 +15,8 @@ import ru.practicum.shareit.item.dao.ItemRepository;
 import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.impl.ItemServiceImpl;
+import ru.practicum.shareit.request.dto.ItemRequestDtoRequestCreate;
+import ru.practicum.shareit.request.dto.ItemRequestDtoResponse;
 import ru.practicum.shareit.request.service.impl.ItemRequestServiceImpl;
 import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
@@ -93,7 +95,6 @@ class ItemServiceImplIntegrationTest {
         assertThat(savedItem.getAvailable()).isTrue();
     }
 
-    /*
         @Test
         void shouldCreateItemWithRequest() {
 
@@ -131,7 +132,7 @@ class ItemServiceImplIntegrationTest {
             assertThat(savedItem.getItemRequest().getId()).isEqualTo(itemRequestDtoResponse.getId());
 
         }
-    */
+
     @Test
     void shouldThrowNotFoundExceptionWhenUserNotFoundForCreateItem() {
         ItemDtoRequestCreate createItemRequest = ItemDtoRequestCreate.builder()
