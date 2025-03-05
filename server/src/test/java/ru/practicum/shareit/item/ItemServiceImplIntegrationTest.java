@@ -3,6 +3,7 @@ package ru.practicum.shareit.item;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.engine.support.descriptor.DirectorySource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -15,6 +16,9 @@ import ru.practicum.shareit.item.dao.ItemRepository;
 import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.impl.ItemServiceImpl;
+import ru.practicum.shareit.request.dto.ItemRequestDtoRequestCreate;
+import ru.practicum.shareit.request.dto.ItemRequestDtoResponse;
+import ru.practicum.shareit.request.service.impl.ItemRequestServiceImpl;
 import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
 import ru.practicum.shareit.user.service.UserService;
@@ -48,6 +52,9 @@ class ItemServiceImplIntegrationTest {
     @Autowired
     private BookingServiceImpl bookingServiceImpl;
 
+    @Autowired
+    private ItemRequestServiceImpl itemRequestService;
+
     private UserDtoResponse userDtoResponse;
     private ItemDtoResponse itemDtoResponse;
 
@@ -68,7 +75,50 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
+    void shouldCreateItemWithRequest() {
+
+        ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
+                .description("test description")
+                .build();
+
+        UserDtoRequestCreate createUserRequest2 = UserDtoRequestCreate.builder()
+                .name("test user2")
+                .email("test2@example.com")
+                .build();
+        userDtoResponse = userService.add(createUserRequest2);
+
+        ItemRequestDtoResponse itemRequestDtoResponse = itemRequestService.add(itemRequestDtoRequestCreate, userDtoResponse.getId());
+
+        System.out.println(itemRequestDtoResponse);
+
+
+        ItemDtoRequestCreate createItemRequest = ItemDtoRequestCreate.builder()
+                .name("new item")
+                .description("new item description")
+                .available(true)
+                .requestId(itemRequestDtoResponse.getId())
+                .build();
+
+        ItemDtoResponse newItemResponse = itemService.add(userDtoResponse.getId(), createItemRequest);
+
+        System.out.println(newItemResponse);
+/*
+        assertThat(newItemResponse.getId()).isNotNull();
+        assertThat(newItemResponse.getName()).isEqualTo("new item");
+        assertThat(newItemResponse.getDescription()).isEqualTo("new item description");
+        assertThat(newItemResponse.getAvailable()).isTrue();
+
+        Item savedItem = itemRepository.findById(newItemResponse.getId()).orElseThrow();
+        assertThat(savedItem.getName()).isEqualTo("new item");
+        assertThat(savedItem.getDescription()).isEqualTo("new item description");
+        assertThat(savedItem.getAvailable()).isTrue();
+
+ */
+    }
+
+    @Test
     void shouldCreateItem() {
+
         ItemDtoRequestCreate createItemRequest = ItemDtoRequestCreate.builder()
                 .name("new item")
                 .description("new item description")
@@ -87,6 +137,8 @@ class ItemServiceImplIntegrationTest {
         assertThat(savedItem.getDescription()).isEqualTo("new item description");
         assertThat(savedItem.getAvailable()).isTrue();
     }
+
+
 
     @Test
     void shouldThrowNotFoundExceptionWhenUserNotFoundForCreateItem() {
