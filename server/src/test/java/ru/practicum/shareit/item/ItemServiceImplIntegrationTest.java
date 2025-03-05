@@ -15,6 +15,7 @@ import ru.practicum.shareit.item.dao.ItemRepository;
 import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.impl.ItemServiceImpl;
+import ru.practicum.shareit.request.dao.ItemRequestRepository;
 import ru.practicum.shareit.request.service.impl.ItemRequestServiceImpl;
 import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
@@ -51,6 +52,9 @@ class ItemServiceImplIntegrationTest {
 
     @Autowired
     private ItemRequestServiceImpl itemRequestService;
+
+    @Autowired
+    private ItemRequestRepository itemRequestRepository;
 
     private UserDtoResponse userDtoResponse;
     private ItemDtoResponse itemDtoResponse;
@@ -94,46 +98,48 @@ class ItemServiceImplIntegrationTest {
     }
 
     /*
-            @Test
-            void shouldCreateItemWithRequest() {
+                @Test
+                void shouldCreateItemWithRequest() {
 
-                UserDtoRequestCreate createRequester = UserDtoRequestCreate.builder()
-                        .name("test user requester")
-                        .email("test-requester@example.com")
-                        .build();
-                userDtoResponse = userService.add(createRequester);
-                System.out.println(userDtoResponse);
+                    UserDtoRequestCreate createRequester = UserDtoRequestCreate.builder()
+                            .name("test user requester")
+                            .email("test-requester@example.com")
+                            .build();
+                    userDtoResponse = userService.add(createRequester);
+                    System.out.println(userDtoResponse);
 
-                ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
-                        .description("test")
-                        .build();
+                    ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
+                            .description("test")
+                            .build();
+                    System.out.println(itemRequestDtoRequestCreate);
+                    ItemRequestDtoResponse itemRequestDtoResponse = itemRequestService.add(itemRequestDtoRequestCreate, userDtoResponse.getId());
+                    System.out.println(itemRequestDtoResponse);
+                    System.out.println(itemRequestService.getAll());
+                    ItemDtoRequestCreate createItemRequest = ItemDtoRequestCreate.builder()
+                            .name("new item")
+                            .description("new item description")
+                            .available(false)
+                            .requestId(itemRequestDtoResponse.getId())
+                            .build();
 
-                ItemRequestDtoResponse itemRequestDtoResponse = itemRequestService.add(itemRequestDtoRequestCreate, userDtoResponse.getId());
-                System.out.println(itemRequestDtoResponse);
-                ItemDtoRequestCreate createItemRequest = ItemDtoRequestCreate.builder()
-                        .name("new item")
-                        .description("new item description")
-                        .available(true)
-                        .requestId(itemRequestDtoResponse.getId())
-                        .build();
+                    ItemDtoResponse newItemResponse = itemService.add(userDtoResponse.getId(), createItemRequest);
+                    System.out.println(newItemResponse);
 
-                ItemDtoResponse newItemResponse = itemService.add(userDtoResponse.getId(), createItemRequest);
-                System.out.println(newItemResponse);
+                    System.out.println(itemRequestService.getById(newItemResponse.getRequestId()));
+                    System.out.println(itemRequestRepository.findById(newItemResponse.getRequestId()));
+                    assertThat(newItemResponse.getId()).isNotNull();
+                    assertThat(newItemResponse.getName()).isEqualTo("new item");
+                    assertThat(newItemResponse.getDescription()).isEqualTo("new item description");
+                    assertThat(newItemResponse.getAvailable()).isFalse();
+                    assertThat(newItemResponse.getRequestId()).isEqualTo(itemRequestDtoResponse.getId());
 
-                System.out.println(itemRequestService.getById(newItemResponse.getRequestId()));
-                assertThat(newItemResponse.getId()).isNotNull();
-                assertThat(newItemResponse.getName()).isEqualTo("new item");
-                assertThat(newItemResponse.getDescription()).isEqualTo("new item description");
-                assertThat(newItemResponse.getAvailable()).isTrue();
-                assertThat(newItemResponse.getRequestId()).isEqualTo(itemRequestDtoResponse.getId());
+                    Item savedItem = itemRepository.findById(newItemResponse.getId()).orElseThrow();
+                    assertThat(savedItem.getName()).isEqualTo("new item");
+                    assertThat(savedItem.getDescription()).isEqualTo("new item description");
+                    assertThat(savedItem.getAvailable()).isFalse();
+                    assertThat(savedItem.getItemRequest().getId()).isEqualTo(itemRequestDtoResponse.getId());
 
-                Item savedItem = itemRepository.findById(newItemResponse.getId()).orElseThrow();
-                assertThat(savedItem.getName()).isEqualTo("new item");
-                assertThat(savedItem.getDescription()).isEqualTo("new item description");
-                assertThat(savedItem.getAvailable()).isTrue();
-                assertThat(savedItem.getItemRequest().getId()).isEqualTo(itemRequestDtoResponse.getId());
-
-            }
+                }
     */
     @Test
     void shouldThrowNotFoundExceptionWhenUserNotFoundForCreateItem() {
