@@ -83,15 +83,20 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Collection<BookingDtoResponse> getBookerBookings(Long bookerId, State state) {
         UserDtoResponse booker = userService.getById(bookerId);
-        Collection<Booking> bookings= List.of();
+        Collection<Booking> bookings = List.of();
         LocalDateTime now = LocalDateTime.now();
         switch (state) {
             case ALL -> bookings = bookingRepository.findAllByBooker_IdOrderByStartDateDesc(bookerId);
-            case CURRENT -> bookings = bookingRepository.findByBooker_IdAndStartDateBeforeAndEndDateAfterOrderByStartDateDesc(bookerId, now, now);
-            case PAST -> bookings = bookingRepository.findByBooker_IdAndEndDateBeforeOrderByStartDateDesc(bookerId, now);
-            case FUTURE -> bookings = bookingRepository.findByBooker_IdAndStartDateAfterOrderByStartDateDesc(bookerId, now);
-            case WAITING -> bookings = bookingRepository.findAllByBooker_IdAndStatusOrderByStartDateDesc(bookerId, StatusBooking.WAITING);
-            case REJECTED -> bookings = bookingRepository.findAllByBooker_IdAndStatusOrderByStartDateDesc(bookerId, StatusBooking.REJECTED);
+            case CURRENT ->
+                    bookings = bookingRepository.findByBooker_IdAndStartDateBeforeAndEndDateAfterOrderByStartDateDesc(bookerId, now, now);
+            case PAST ->
+                    bookings = bookingRepository.findByBooker_IdAndEndDateBeforeOrderByStartDateDesc(bookerId, now);
+            case FUTURE ->
+                    bookings = bookingRepository.findByBooker_IdAndStartDateAfterOrderByStartDateDesc(bookerId, now);
+            case WAITING ->
+                    bookings = bookingRepository.findAllByBooker_IdAndStatusOrderByStartDateDesc(bookerId, StatusBooking.WAITING);
+            case REJECTED ->
+                    bookings = bookingRepository.findAllByBooker_IdAndStatusOrderByStartDateDesc(bookerId, StatusBooking.REJECTED);
         }
         return bookings.stream().map(booking ->
                 bookingMapper.toBookingDtoResponse(
@@ -108,11 +113,16 @@ public class BookingServiceImpl implements BookingService {
         LocalDateTime now = LocalDateTime.now();
         switch (state) {
             case ALL -> bookings = bookingRepository.findAllByItem_Owner_IdOrderByStartDateDesc(ownerId);
-            case CURRENT -> bookings = bookingRepository.findByItem_Owner_IdAndStartDateBeforeAndEndDateAfterOrderByStartDateDesc(ownerId, now, now);
-            case PAST -> bookings = bookingRepository.findByItem_Owner_IdAndEndDateBeforeOrderByStartDateDesc(ownerId, now);
-            case FUTURE -> bookings = bookingRepository.findByItem_Owner_IdAndStartDateAfterOrderByStartDateDesc(ownerId, now);
-            case WAITING -> bookings = bookingRepository.findAllByItem_Owner_IdAndStatusOrderByStartDateDesc(ownerId, StatusBooking.WAITING);
-            case REJECTED -> bookings = bookingRepository.findAllByItem_Owner_IdAndStatusOrderByStartDateDesc(ownerId, StatusBooking.REJECTED);
+            case CURRENT ->
+                    bookings = bookingRepository.findByItem_Owner_IdAndStartDateBeforeAndEndDateAfterOrderByStartDateDesc(ownerId, now, now);
+            case PAST ->
+                    bookings = bookingRepository.findByItem_Owner_IdAndEndDateBeforeOrderByStartDateDesc(ownerId, now);
+            case FUTURE ->
+                    bookings = bookingRepository.findByItem_Owner_IdAndStartDateAfterOrderByStartDateDesc(ownerId, now);
+            case WAITING ->
+                    bookings = bookingRepository.findAllByItem_Owner_IdAndStatusOrderByStartDateDesc(ownerId, StatusBooking.WAITING);
+            case REJECTED ->
+                    bookings = bookingRepository.findAllByItem_Owner_IdAndStatusOrderByStartDateDesc(ownerId, StatusBooking.REJECTED);
         }
 
         return bookings.stream().map(booking ->
