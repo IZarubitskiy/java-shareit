@@ -35,7 +35,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ItemRequestServiceImplTest {
 
-
     @Mock
     private ItemRequestRepository itemRequestRepository;
 
@@ -139,7 +138,7 @@ class ItemRequestServiceImplTest {
         when(itemRequestRepository.findRequestsByRequester_IdOrderByCreationDateDesc(anyLong())).thenReturn(List.of(itemRequest));
         when(itemService.getItemsByRequestIds(anyList())).thenReturn(List.of(itemDtoResponse));
 
-        List<ItemRequestDtoResponseWithAnswers> actualResponses = itemRequestService.get(1L);
+        List<ItemRequestDtoResponseWithAnswers> actualResponses = itemRequestService.getOwn(1L);
 
         Assertions.assertThat(actualResponses)
                 .hasSize(1)

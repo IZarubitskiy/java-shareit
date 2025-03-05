@@ -13,24 +13,24 @@ class ItemRequestDtoRequestCreateTest {
 
 
     @Autowired
-    private JacksonTester<ItemRequestDtoRequestCreate> jsonTester;
+    private JacksonTester<ItemRequestDtoRequestCreate> itemRequestDtoRequestCreateJacksonTester;
 
     @Test
-    void testRequestCreateRequestSerialization() throws Exception {
+    void testItemRequestDtoRequestCreateSerialization() throws Exception {
         ItemRequestDtoRequestCreate request = ItemRequestDtoRequestCreate.builder()
                 .description("Test Description")
                 .build();
 
-        JsonContent<ItemRequestDtoRequestCreate> json = jsonTester.write(request);
+        JsonContent<ItemRequestDtoRequestCreate> json = itemRequestDtoRequestCreateJacksonTester.write(request);
 
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("Test Description");
     }
 
     @Test
-    void testRequestCreateRequestDeserialization() throws Exception {
+    void testItemRequestDtoRequestCreateDeserialization() throws Exception {
         String jsonContent = "{\"description\":\"Test Description\"}";
 
-        ItemRequestDtoRequestCreate request = jsonTester.parseObject(jsonContent);
+        ItemRequestDtoRequestCreate request = itemRequestDtoRequestCreateJacksonTester.parseObject(jsonContent);
 
         assertThat(request.getDescription()).isEqualTo("Test Description");
     }

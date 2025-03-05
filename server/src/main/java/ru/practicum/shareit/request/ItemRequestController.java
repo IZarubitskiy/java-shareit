@@ -27,19 +27,19 @@ public class ItemRequestController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Collection<ItemRequestDtoResponseWithAnswers> get(@RequestHeader(value = "X-Sharer-User-Id") Long requesterId) {
-        return itemRequestService.get(requesterId);
+    public Collection<ItemRequestDtoResponseWithAnswers> getOwn(@RequestHeader(value = "X-Sharer-User-Id") Long requesterId) {
+        return itemRequestService.getOwn(requesterId);
     }
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<ItemRequestDtoResponse> geAll() {
+    public Collection<ItemRequestDtoResponse> getAll() {
         return itemRequestService.getAll();
     }
 
     @GetMapping("/{requestId}")
     @ResponseStatus(HttpStatus.OK)
-    public ItemRequestDtoResponseWithAnswers itemRequestDtoResponseWithAnswers(@PathVariable Long requestId) {
+    public ItemRequestDtoResponseWithAnswers getById(@PathVariable Long requestId) {
         return itemRequestService.getById(requestId);
     }
 }

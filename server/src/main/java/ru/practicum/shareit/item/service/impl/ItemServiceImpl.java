@@ -78,7 +78,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Collection<ItemDtoResponseSeek> get(Long userId) {
+    public List<ItemDtoResponseSeek> get(Long userId) {
         List<Item> items = itemRepository.findItemsByOwnerId(userId);
         List<Booking> bookings = new ArrayList<>(bookingRepository.findAllByItem_Owner_IdOrderByStartDateDesc(userId));
         List<Comment> comments = commentRepository.findAllByItem_Owner_Id(userId);
@@ -121,7 +121,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDtoResponse> getByString(String query) {
-        return itemRepository.findItemsByNameLikeIgnoreCaseAndAvailableTrue(query).stream().map(itemMapper::toItemDtoResponse).toList();
+        return itemRepository.findItemsByNameLikeIgnoreCaseAndAvailableTrue(query).stream()
+                .map(itemMapper::toItemDtoResponse).toList();
     }
 
     @Override
@@ -135,7 +136,8 @@ public class ItemServiceImpl implements ItemService {
         Item item = getById(itemId);
         User author = userMapper.toUser(userService.getById(authorId));
 
-        if (bookingRepository.findPastByItem_IdAndBooker_Id(itemId, authorId).isEmpty()) {
+        LocalDateTime now = LocalDateTime.now();
+        if (bookingRepository.findByItem_IdAndBooker_IdAndEndDateBeforeOrderByStartDateDesc(itemId, authorId, now).isEmpty()) {
             throw new ValidationException(String.format("Item id=%d completed booking of user id=%d not found", itemId, authorId));
         }
 

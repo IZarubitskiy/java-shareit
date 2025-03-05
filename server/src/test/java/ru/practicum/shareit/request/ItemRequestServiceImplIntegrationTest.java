@@ -102,11 +102,11 @@ public class ItemRequestServiceImplIntegrationTest {
                 .build();
         ItemRequestDtoResponse requestResponse = itemRequestService.add(itemRequestDtoRequestCreate, userDtoResponse.getId());
 
-        List<ItemRequestDtoResponseWithAnswers> userRequests = itemRequestService.get(userDtoResponse.getId());
+        List<ItemRequestDtoResponseWithAnswers> userRequests = itemRequestService.getOwn(userDtoResponse.getId());
 
         assertThat(userRequests).hasSize(1);
-        assertThat(userRequests.get(0).getId()).isEqualTo(requestResponse.getId());
-        assertThat(userRequests.get(0).getDescription()).isEqualTo("test description");
+        assertThat(userRequests.getFirst().getId()).isEqualTo(requestResponse.getId());
+        assertThat(userRequests.getFirst().getDescription()).isEqualTo("test description");
     }
 
     @Test
@@ -119,9 +119,9 @@ public class ItemRequestServiceImplIntegrationTest {
         List<ItemRequestDtoResponse> allRequests = itemRequestService.getAll();
 
         assertThat(allRequests).hasSize(1);
-        assertThat(allRequests.get(0).getId()).isEqualTo(requestResponse.getId());
-        assertThat(allRequests.get(0).getDescription()).isEqualTo("test description");
-        assertThat(allRequests.get(0).getRequesterId()).isEqualTo(userDtoResponse.getId());
+        assertThat(allRequests.getFirst().getId()).isEqualTo(requestResponse.getId());
+        assertThat(allRequests.getFirst().getDescription()).isEqualTo("test description");
+        assertThat(allRequests.getFirst().getRequesterId()).isEqualTo(userDtoResponse.getId());
     }
 
     @Test
@@ -163,7 +163,7 @@ public class ItemRequestServiceImplIntegrationTest {
 
         assertThat(foundRequest.getItems()).hasSize(1);
         assertThat(foundRequest.getId()).isEqualTo(itemRequestDtoResponse.getId());
-        assertThat(foundRequest.getItems().get(0).getId()).isEqualTo(itemDtoResponse.getId());
-        assertThat(foundRequest.getItems().get(0).getName()).isEqualTo("test item");
+        assertThat(foundRequest.getItems().getFirst().getId()).isEqualTo(itemDtoResponse.getId());
+        assertThat(foundRequest.getItems().getFirst().getName()).isEqualTo("test item");
     }
 }

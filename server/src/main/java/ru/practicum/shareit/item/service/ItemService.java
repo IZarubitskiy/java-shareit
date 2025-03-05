@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ItemService {
-    Collection<ItemDtoResponseSeek> get(Long userId);
+    List<ItemDtoResponseSeek> get(Long userId);
 
     ItemDtoResponse add(Long userId, ItemDtoRequestCreate itemDtoRequestCreate);
 

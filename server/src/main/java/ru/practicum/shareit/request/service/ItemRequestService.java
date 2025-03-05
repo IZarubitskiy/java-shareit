@@ -9,7 +9,7 @@ import java.util.List;
 public interface ItemRequestService {
     ItemRequestDtoResponse add(ItemRequestDtoRequestCreate itemRequestDtoRequestCreate, Long requesterId);
 
-    List<ItemRequestDtoResponseWithAnswers> get(Long requesterId);
+    List<ItemRequestDtoResponseWithAnswers> getOwn(Long requesterId);
 
     List<ItemRequestDtoResponse> getAll();
 

@@ -40,7 +40,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     }
 
     @Override
-    public List<ItemRequestDtoResponseWithAnswers> get(Long requesterId) {
+    public List<ItemRequestDtoResponseWithAnswers> getOwn(Long requesterId) {
         List<ItemRequest> userRequests = itemRequestRepository.findRequestsByRequester_IdOrderByCreationDateDesc(requesterId);
         List<ItemDtoResponse> answers = itemService.getItemsByRequestIds(userRequests.stream().map(ItemRequest::getId).toList());
 

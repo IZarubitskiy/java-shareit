@@ -6,7 +6,9 @@ import org.mapstruct.MappingConstants;
 import ru.practicum.shareit.booking.dto.BookingDtoRequestCreate;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.item.dto.ItemDtoResponse;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.dto.UserDtoResponse;
 import ru.practicum.shareit.user.model.User;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
@@ -23,5 +25,5 @@ public interface BookingMapper {
     @Mapping(target = "start", source = "booking.startDate")
     @Mapping(target = "end", source = "booking.endDate")
     @Mapping(target = "id", source = "booking.id")
-    BookingDtoResponse toBookingDtoResponse(Booking booking);
+    BookingDtoResponse toBookingDtoResponse(Booking booking, ItemDtoResponse item, UserDtoResponse booker);
 }

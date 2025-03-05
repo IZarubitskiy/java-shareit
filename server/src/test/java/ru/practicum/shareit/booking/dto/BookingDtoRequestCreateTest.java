@@ -18,7 +18,7 @@ class BookingDtoRequestCreateTest {
     private JacksonTester<BookingDtoRequestCreate> jsonTester;
 
     @Test
-    void testCreateBookingRequestSerialization() throws Exception {
+    void testBookingDtoRequestCreatetSerialization() throws Exception {
         LocalDateTime start = LocalDateTime.of(2023, 10, 1, 12, 0);
         LocalDateTime end = LocalDateTime.of(2023, 10, 2, 12, 0);
 
@@ -36,7 +36,7 @@ class BookingDtoRequestCreateTest {
     }
 
     @Test
-    void testCreateBookingRequestDeserialization() throws Exception {
+    void testBookingDtoRequestCreateDeserialization() throws Exception {
         String jsonContent = "{\"itemId\":1,\"start\":\"2023-10-01T12:00:00\",\"end\":\"2023-10-02T12:00:00\"}";
 
         BookingDtoRequestCreate request = jsonTester.parseObject(jsonContent);

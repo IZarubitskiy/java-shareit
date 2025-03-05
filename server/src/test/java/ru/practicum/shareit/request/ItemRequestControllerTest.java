@@ -64,7 +64,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void testGetUserRequests() throws Exception {
+    void testGetOwn() throws Exception {
         ItemDtoResponse item = ItemDtoResponse.builder()
                 .id(1L)
                 .name("item name test")
@@ -81,7 +81,7 @@ class ItemRequestControllerTest {
 
         List<ItemRequestDtoResponseWithAnswers> requests = Collections.singletonList(itemRequestDtoResponseWithAnswers);
 
-        Mockito.when(itemRequestService.get(Mockito.eq(1L))).thenReturn(requests);
+        Mockito.when(itemRequestService.getOwn(Mockito.eq(1L))).thenReturn(requests);
 
         mockMvc.perform(get("/requests")
                         .header("X-Sharer-User-Id", 1L)
@@ -95,7 +95,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void testGetAllRequests() throws Exception {
+    void testGetAll() throws Exception {
         ItemRequestDtoResponse itemRequestDtoResponse = ItemRequestDtoResponse.builder()
                 .id(1L)
                 .description("request description test")
@@ -116,7 +116,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void testGetRequestById() throws Exception {
+    void testGetById() throws Exception {
         ItemDtoResponse item = ItemDtoResponse.builder()
                 .id(1L)
                 .name("item name test")

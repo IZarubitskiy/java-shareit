@@ -15,10 +15,10 @@ class ItemRequestDtoResponseTest {
 
 
     @Autowired
-    private JacksonTester<ItemRequestDtoResponse> jsonTester;
+    private JacksonTester<ItemRequestDtoResponse> itemRequestDtoResponseJacksonTester;
 
     @Test
-    void testRequestResponseSerialization() throws Exception {
+    void testItemRequestDtoResponseSerialization() throws Exception {
         LocalDateTime createdAt = LocalDateTime.of(2023, 10, 1, 12, 0);
 
         ItemRequestDtoResponse response = ItemRequestDtoResponse.builder()
@@ -28,7 +28,7 @@ class ItemRequestDtoResponseTest {
                 .created(createdAt)
                 .build();
 
-        JsonContent<ItemRequestDtoResponse> json = jsonTester.write(response);
+        JsonContent<ItemRequestDtoResponse> json = itemRequestDtoResponseJacksonTester.write(response);
 
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(1);
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("Test Description");
@@ -37,10 +37,10 @@ class ItemRequestDtoResponseTest {
     }
 
     @Test
-    void testRequestResponseDeserialization() throws Exception {
+    void testItemRequestDtoResponseDeserialization() throws Exception {
         String jsonContent = "{\"id\":1,\"description\":\"Test Description\",\"requesterId\":123,\"created\":\"2023-10-01T12:00:00\"}";
 
-        ItemRequestDtoResponse response = jsonTester.parseObject(jsonContent);
+        ItemRequestDtoResponse response = itemRequestDtoResponseJacksonTester.parseObject(jsonContent);
 
         assertThat(response.getId()).isEqualTo(1L);
         assertThat(response.getDescription()).isEqualTo("Test Description");

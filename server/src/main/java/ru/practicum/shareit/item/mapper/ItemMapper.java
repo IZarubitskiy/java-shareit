@@ -40,5 +40,6 @@ public interface ItemMapper {
                                               LocalDateTime nextBooking,
                                               LocalDateTime lastBooking);
 
+    Item toItem (ItemDtoResponse itemDtoResponse);
 
 }
