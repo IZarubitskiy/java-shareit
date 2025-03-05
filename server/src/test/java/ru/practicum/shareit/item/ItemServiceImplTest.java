@@ -1,5 +1,7 @@
 package ru.practicum.shareit.item;
 
+import jakarta.validation.ValidationException;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
@@ -7,23 +9,33 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.practicum.shareit.booking.dao.BookingRepository;
+import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.exceptions.exemption.NotFoundException;
 import ru.practicum.shareit.item.dao.CommentRepository;
 import ru.practicum.shareit.item.dao.ItemRepository;
-import ru.practicum.shareit.item.dto.CommentDtoRequestCreate;
-import ru.practicum.shareit.item.dto.ItemDtoRequestCreate;
-import ru.practicum.shareit.item.dto.ItemDtoRequestUpdate;
+import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.impl.ItemServiceImpl;
 import ru.practicum.shareit.request.dao.ItemRequestRepository;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ItemServiceImplTest {
@@ -106,7 +118,7 @@ class ItemServiceImplTest {
                 .text("comment text test")
                 .build();
     }
-/*
+
     @Test
     void shouldCreateItem() {
         when(userService.getById(anyLong())).thenReturn(userDtoResponse);
@@ -247,9 +259,9 @@ class ItemServiceImplTest {
     @Test
     void shouldFindItemWithComments() {
         when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
-        when(commentRepository.findAllByItem_Id(anyLong())).thenReturn(of(comment));
+        when(commentRepository.findAllByItem_Id(anyLong())).thenReturn(List.of(comment));
 
-        ItemDtoResponseSeek expectedResponse = itemMapper.toItemDtoResponseSeek(item, of(commentMapper.toItemCommentDtoResponse(comment)), null, null);
+        ItemDtoResponseSeek expectedResponse = itemMapper.toItemDtoResponseSeek(item, List.of(commentMapper.toItemCommentDtoResponse(comment)), null, null);
         ItemDtoResponseSeek actualResponse = itemService.getItemWithCommentsById(1L);
 
         assertThat(actualResponse).isEqualTo(expectedResponse);
@@ -268,17 +280,17 @@ class ItemServiceImplTest {
         verify(itemRepository, times(1)).findById(1L);
         verify(commentRepository, never()).findAllByItem_Id(anyLong());
     }
-/*
+
     @Test
     void shouldGetAllUserItems() {
-        when(itemRepository.findItemsByOwnerId(anyLong())).thenReturn(of(item));
+        when(itemRepository.findItemsByOwnerId(anyLong())).thenReturn(List.of(item));
         when(bookingRepository.findAllByItem_Owner_IdOrderByStartDateDesc(anyLong())).thenReturn(Collections.emptyList());
         when(commentRepository.findAllByItem_Owner_Id(anyLong())).thenReturn(Collections.emptyList());
 
-        List<ItemDtoResponseSeek> expectedResponses = of(
+        List<ItemDtoResponseSeek> expectedResponses = List.of(
                 itemMapper.toItemDtoResponseSeek(item, Collections.emptyList(), null, null)
         );
-        List<ItemDtoResponseSeek> actualResponses = itemService.getOwn(1L);
+        List<ItemDtoResponseSeek> actualResponses = itemService.get(1L);
 
         assertThat(actualResponses).isEqualTo(expectedResponses);
 
@@ -289,21 +301,25 @@ class ItemServiceImplTest {
 
     @Test
     void shouldSearchItems() {
-        when(itemRepository.findItemsByNameLikeIgnoreCaseAndAvailableTrue(anyString())).thenReturn(of(item));
+        when(itemRepository.findItemsByNameLikeIgnoreCaseAndAvailableTrue(anyString())).thenReturn(List.of(item));
 
-        List<ItemDtoResponse> expectedResponses = of(itemMapper.toItemDtoResponse(item));
+        List<ItemDtoResponse> expectedResponses = List.of(itemMapper.toItemDtoResponse(item));
         List<ItemDtoResponse> actualResponses = itemService.getByString("item");
 
         assertThat(actualResponses).isEqualTo(expectedResponses);
 
         verify(itemRepository, times(1)).findItemsByNameLikeIgnoreCaseAndAvailableTrue("item");
     }
-/*
+
     @Test
     void shouldAddComment() {
         when(userService.getById(anyLong())).thenReturn(userDtoResponse);
         when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
-        when(bookingRepository.findPastByItem_IdAndBooker_Id(anyLong(), anyLong())).thenReturn(List.of(new Booking()));
+        when(bookingRepository.findByItem_IdAndBooker_IdAndEndDateBeforeOrderByStartDateDesc(
+                anyLong(),
+                anyLong(),
+                any(LocalDateTime.class))
+        ).thenReturn(List.of(new Booking()));
         when(commentRepository.save(any(Comment.class))).thenReturn(comment);
 
         CommentDtoResponse expectedResponse = commentMapper.toCommentDtoResponse(
@@ -315,7 +331,7 @@ class ItemServiceImplTest {
 
         verify(userService, times(1)).getById(1L);
         verify(itemRepository, times(1)).findById(1L);
-        verify(bookingRepository, times(1)).findPastByItem_IdAndBooker_Id(1L, 1L);
+        verify(bookingRepository, times(1)).findByItem_IdAndBooker_IdAndEndDateBeforeOrderByStartDateDesc(eq(1L), eq(1L), any(LocalDateTime.class));
         verify(commentRepository, times(1)).save(any(Comment.class));
     }
 
@@ -328,7 +344,7 @@ class ItemServiceImplTest {
 
         verify(userService, never()).getById(1L);
         verify(itemRepository, times(1)).findById(1L);
-        verify(bookingRepository, never()).findPastByItem_IdAndBooker_Id(anyLong(), anyLong());
+        verify(bookingRepository, never()).findByItem_IdAndBooker_IdAndEndDateBeforeOrderByStartDateDesc(anyLong(), anyLong(), any(LocalDateTime.class));
         verify(commentRepository, never()).save(any(Comment.class));
     }
 
@@ -336,27 +352,30 @@ class ItemServiceImplTest {
     void shouldThrowValidationExceptionWhenAddingCommentWithoutBooking() {
         when(userService.getById(anyLong())).thenReturn(userDtoResponse);
         when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
-        when(bookingRepository.findPastByItem_IdAndBooker_Id(anyLong(), anyLong())).thenReturn(of());
+        when(bookingRepository.findByItem_IdAndBooker_IdAndEndDateBeforeOrderByStartDateDesc(
+                anyLong(),
+                anyLong(),
+                any(LocalDateTime.class))
+        ).thenReturn(Collections.emptyList());
 
         assertThatThrownBy(() -> itemService.addComment(createCommentRequest, 1L, 1L))
                 .isInstanceOf(ValidationException.class);
 
         verify(userService, times(1)).getById(1L);
         verify(itemRepository, times(1)).findById(1L);
-        verify(bookingRepository, times(1)).findPastByItem_IdAndBooker_Id(1L, 1L);
+        verify(bookingRepository, times(1)).findByItem_IdAndBooker_IdAndEndDateBeforeOrderByStartDateDesc(eq(1L), eq(1L), any(LocalDateTime.class));
     }
 
     @Test
     void shouldFindItemsByRequestIds() {
-        when(itemRepository.findItemsByItemRequest_IdIn(anyList())).thenReturn(of(item));
+        when(itemRepository.findItemsByItemRequest_IdIn(anyList())).thenReturn(List.of(item));
 
-        List<ItemDtoResponse> expectedResponses = of(itemMapper.toItemDtoResponse(item));
-        List<ItemDtoResponse> actualResponses = itemService.getItemsByRequestIds(of(1L));
+        List<ItemDtoResponse> expectedResponses = List.of(itemMapper.toItemDtoResponse(item));
+        List<ItemDtoResponse> actualResponses = itemService.getItemsByRequestIds(List.of(1L));
 
         assertThat(actualResponses).isEqualTo(expectedResponses);
 
-        verify(itemRepository, times(1)).findItemsByItemRequest_IdIn(of(1L));
+        verify(itemRepository, times(1)).findItemsByItemRequest_IdIn(List.of(1L));
     }
-    */
 
 }

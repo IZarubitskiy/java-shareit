@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.shareit.booking.dto.BookingDtoRequestCreate;
 import ru.practicum.shareit.booking.service.impl.BookingServiceImpl;
 import ru.practicum.shareit.exceptions.exemption.AuthorizationException;
 import ru.practicum.shareit.exceptions.exemption.NotFoundException;
@@ -18,6 +19,7 @@ import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
 import ru.practicum.shareit.user.service.UserService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -164,36 +166,33 @@ class ItemServiceImplIntegrationTest {
     @Test
     void shouldSearchItems() {
         List<ItemDtoResponse> foundItems = itemService.getByString("test");
-        System.out.println(foundItems);
-        System.out.println(itemService.getById(1L));
         assertThat(foundItems).hasSize(1);
         assertThat(foundItems.getFirst().getName()).isEqualTo("test item");
         assertThat(foundItems.getFirst().getDescription()).isEqualTo("item description");
         assertThat(foundItems.getFirst().getAvailable()).isTrue();
     }
 
-    /*
-        @Test
-        void shouldAddComment() {
-            CommentDtoRequestCreate createCommentRequest = CommentDtoRequestCreate.builder()
-                    .text("test comment")
-                    .build();
+    @Test
+    void shouldAddComment() {
+        CommentDtoRequestCreate createCommentRequest = CommentDtoRequestCreate.builder()
+                .text("test comment")
+                .build();
 
-            BookingDtoRequestCreate createBookingRequest = BookingDtoRequestCreate.builder()
-                    .itemId(itemDtoResponse.getId())
-                    .start(LocalDateTime.now())
-                    .end(LocalDateTime.now().plusMinutes(1))
-                    .build();
+        BookingDtoRequestCreate createBookingRequest = BookingDtoRequestCreate.builder()
+                .itemId(itemDtoResponse.getId())
+                .start(LocalDateTime.now())
+                .end(LocalDateTime.now().plusNanos(1))
+                .build();
 
-            bookingServiceImpl.createBooking(createBookingRequest, userDtoResponse.getId());
+        bookingServiceImpl.createBooking(createBookingRequest, userDtoResponse.getId());
 
-            CommentDtoResponse commentResponse = itemService.addComment(createCommentRequest, itemDtoResponse.getId(), userDtoResponse.getId());
+        CommentDtoResponse commentResponse = itemService.addComment(createCommentRequest, itemDtoResponse.getId(), userDtoResponse.getId());
 
-            assertThat(commentResponse.getText()).isEqualTo("test comment");
-            assertThat(commentResponse.getAuthorName()).isEqualTo("test user");
-            assertThat(commentResponse.getItem().getName()).isEqualTo("test item");
-        }
-    */
+        assertThat(commentResponse.getText()).isEqualTo("test comment");
+        assertThat(commentResponse.getAuthorName()).isEqualTo("test user");
+        assertThat(commentResponse.getItem().getName()).isEqualTo("test item");
+    }
+
     @Test
     void shouldThrowValidationExceptionWhenAddingCommentWithoutBooking() {
         CommentDtoRequestCreate createCommentRequest = CommentDtoRequestCreate.builder()
