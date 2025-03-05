@@ -57,7 +57,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     @Override
     public List<ItemRequestDtoResponse> getAll() {
-        return itemRequestRepository.findAllOrderByCreationDateDesc().stream()
+        return itemRequestRepository.findAllByOrderByCreationDateDesc().stream()
                 .map(itemRequestMapper::toItemRequestDtoResponse)
                 .toList();
     }

@@ -151,7 +151,7 @@ class ItemRequestServiceImplTest {
 
     @Test
     void shouldFindAllRequests() {
-        when(itemRequestRepository.findAllOrderByCreationDateDesc()).thenReturn(List.of(itemRequest));
+        when(itemRequestRepository.findAllByOrderByCreationDateDesc()).thenReturn(List.of(itemRequest));
 
         List<ItemRequestDtoResponse> actualResponses = itemRequestService.getAll();
 
@@ -160,7 +160,7 @@ class ItemRequestServiceImplTest {
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("created")
                 .containsExactlyInAnyOrder(itemRequestDtoResponse);
 
-        verify(itemRequestRepository, times(1)).findAllOrderByCreationDateDesc();
+        verify(itemRequestRepository, times(1)).findAllByOrderByCreationDateDesc();
     }
 
     @Test
