@@ -155,7 +155,7 @@ public class ItemRequestServiceImplIntegrationTest {
                 .name("test item")
                 .description("item description")
                 .available(true)
-                .requestId(1L)
+                .requestId(2L)
                 .build();
         itemDtoResponse = itemService.add(userDtoResponse.getId(), itemDtoRequestCreate);
 

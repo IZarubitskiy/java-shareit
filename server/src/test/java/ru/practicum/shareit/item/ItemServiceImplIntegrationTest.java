@@ -160,7 +160,6 @@ class ItemServiceImplIntegrationTest {
                 .build();
 
         ItemDtoResponse updatedItemResponse = itemService.update(userDtoResponse.getId(), itemDtoResponse.getId(), updateItemRequest);
-        System.out.println(updatedItemResponse);
 
         assertThat(updatedItemResponse.getId()).isEqualTo(itemDtoResponse.getId());
         assertThat(updatedItemResponse.getName()).isEqualTo("updated item");
