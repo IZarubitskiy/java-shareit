@@ -75,6 +75,7 @@ class ItemServiceImplIntegrationTest {
                 .available(true)
                 .build();
         itemDtoResponse = itemService.add(userDtoResponse.getId(), createItemRequest);
+
     }
 
     @Test
@@ -102,21 +103,18 @@ class ItemServiceImplIntegrationTest {
 
     @Test
     void shouldCreateItemWithRequest() {
-
         UserDtoRequestCreate createRequester = UserDtoRequestCreate.builder()
                 .name("test user requester")
                 .email("test-requester@example.com")
                 .build();
         userDtoResponse = userService.add(createRequester);
-        System.out.println(userDtoResponse);
 
         ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
                 .description("test")
                 .build();
-        System.out.println(itemRequestDtoRequestCreate);
+
         ItemRequestDtoResponse itemRequestDtoResponse = itemRequestService.add(itemRequestDtoRequestCreate, userDtoResponse.getId());
-        System.out.println(itemRequestDtoResponse);
-        System.out.println(itemRequestService.getAll());
+
         ItemDtoRequestCreate createItemRequest = ItemDtoRequestCreate.builder()
                 .name("new item")
                 .description("new item description")
@@ -125,10 +123,7 @@ class ItemServiceImplIntegrationTest {
                 .build();
 
         ItemDtoResponse newItemResponse = itemService.add(userDtoResponse.getId(), createItemRequest);
-        System.out.println(newItemResponse);
 
-        System.out.println(itemRequestService.getById(newItemResponse.getRequestId()));
-        System.out.println(itemRequestRepository.findById(newItemResponse.getRequestId()));
         assertThat(newItemResponse.getId()).isNotNull();
         assertThat(newItemResponse.getName()).isEqualTo("new item");
         assertThat(newItemResponse.getDescription()).isEqualTo("new item description");
