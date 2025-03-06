@@ -20,7 +20,6 @@ public class ItemDtoRequestCreate {
     @NotNull(message = "Available is required")
     private Boolean available;
 
-    @Getter(AccessLevel.NONE)
     private Long requestId;
 
     public Optional<Long> getRequestId() {
