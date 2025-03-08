@@ -12,9 +12,9 @@ import ru.practicum.shareit.exceptions.exemption.NotFoundException;
 import ru.practicum.shareit.item.dto.ItemDtoResponse;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.request.dao.ItemRequestRepository;
-import ru.practicum.shareit.request.dto.ItemRequestDtoRequestCreate;
-import ru.practicum.shareit.request.dto.ItemRequestDtoResponse;
-import ru.practicum.shareit.request.dto.ItemRequestDtoResponseWithAnswers;
+import ru.practicum.shareit.request.dto.RequestCreateDto;
+import ru.practicum.shareit.request.dto.RequestResponseDto;
+import ru.practicum.shareit.request.dto.RequestResponseWithAnswersDto;
 import ru.practicum.shareit.request.mapper.ItemRequestMapper;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.service.impl.ItemRequestServiceImpl;
@@ -56,9 +56,9 @@ class ItemRequestServiceImplTest {
     private final User user;
     private final UserDtoResponse userDtoResponse;
     private final ItemRequest itemRequest;
-    private final ItemRequestDtoRequestCreate itemRequestDtoRequestCreate;
-    private final ItemRequestDtoResponse itemRequestDtoResponse;
-    private final ItemRequestDtoResponseWithAnswers requestWithAnswersResponse;
+    private final RequestCreateDto requestCreateDto;
+    private final RequestResponseDto requestResponseDto;
+    private final RequestResponseWithAnswersDto requestWithAnswersResponse;
     private final ItemDtoResponse itemDtoResponse;
 
     public ItemRequestServiceImplTest() {
@@ -79,11 +79,11 @@ class ItemRequestServiceImplTest {
         itemRequest.setRequester(user);
         itemRequest.setCreationDate(LocalDateTime.now());
 
-        itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
+        requestCreateDto = RequestCreateDto.builder()
                 .description("itemRequest description test")
                 .build();
 
-        itemRequestDtoResponse = ItemRequestDtoResponse.builder()
+        requestResponseDto = RequestResponseDto.builder()
                 .id(1L)
                 .description("itemRequest description test")
                 .requesterId(1L)
@@ -98,7 +98,7 @@ class ItemRequestServiceImplTest {
                 .requestId(1L)
                 .build();
 
-        requestWithAnswersResponse = ItemRequestDtoResponseWithAnswers.builder()
+        requestWithAnswersResponse = RequestResponseWithAnswersDto.builder()
                 .id(1L)
                 .description("itemRequest description test")
                 .created(LocalDateTime.now())
@@ -111,12 +111,12 @@ class ItemRequestServiceImplTest {
         when(userService.getById(anyLong())).thenReturn(userDtoResponse);
         when(itemRequestRepository.save(any(ItemRequest.class))).thenReturn(itemRequest);
 
-        ItemRequestDtoResponse actualResponse = itemRequestService.add(itemRequestDtoRequestCreate, 1L);
+        RequestResponseDto actualResponse = itemRequestService.add(requestCreateDto, 1L);
 
         Assertions.assertThat(actualResponse)
                 .usingRecursiveComparison()
                 .ignoringFields("created")
-                .isEqualTo(itemRequestDtoResponse);
+                .isEqualTo(requestResponseDto);
 
         verify(userService, times(1)).getById(1L);
         verify(itemRequestRepository, times(1)).save(any(ItemRequest.class));
@@ -126,7 +126,7 @@ class ItemRequestServiceImplTest {
     void shouldThrowNotFoundExceptionWhenUserNotFoundForCreateRequest() {
         when(userService.getById(anyLong())).thenThrow(new NotFoundException(""));
 
-        assertThatThrownBy(() -> itemRequestService.add(itemRequestDtoRequestCreate, 1L))
+        assertThatThrownBy(() -> itemRequestService.add(requestCreateDto, 1L))
                 .isInstanceOf(NotFoundException.class);
 
         verify(userService, times(1)).getById(1L);
@@ -138,7 +138,7 @@ class ItemRequestServiceImplTest {
         when(itemRequestRepository.findRequestsByRequester_IdOrderByCreationDateDesc(anyLong())).thenReturn(List.of(itemRequest));
         when(itemService.getItemsByRequestIds(anyList())).thenReturn(List.of(itemDtoResponse));
 
-        List<ItemRequestDtoResponseWithAnswers> actualResponses = itemRequestService.getOwn(1L);
+        List<RequestResponseWithAnswersDto> actualResponses = itemRequestService.getOwn(1L);
 
         Assertions.assertThat(actualResponses)
                 .hasSize(1)
@@ -153,12 +153,12 @@ class ItemRequestServiceImplTest {
     void shouldFindAllRequests() {
         when(itemRequestRepository.findAllByOrderByCreationDateDesc()).thenReturn(List.of(itemRequest));
 
-        List<ItemRequestDtoResponse> actualResponses = itemRequestService.getAll();
+        List<RequestResponseDto> actualResponses = itemRequestService.getAll();
 
         Assertions.assertThat(actualResponses)
                 .hasSize(1)
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("created")
-                .containsExactlyInAnyOrder(itemRequestDtoResponse);
+                .containsExactlyInAnyOrder(requestResponseDto);
 
         verify(itemRequestRepository, times(1)).findAllByOrderByCreationDateDesc();
     }
@@ -168,7 +168,7 @@ class ItemRequestServiceImplTest {
         when(itemRequestRepository.findById(anyLong())).thenReturn(Optional.of(itemRequest));
         when(itemService.getItemsByRequestIds(anyList())).thenReturn(List.of(itemDtoResponse));
 
-        ItemRequestDtoResponseWithAnswers actualResponse = itemRequestService.getById(1L);
+        RequestResponseWithAnswersDto actualResponse = itemRequestService.getById(1L);
 
         Assertions.assertThat(actualResponse)
                 .usingRecursiveComparison()

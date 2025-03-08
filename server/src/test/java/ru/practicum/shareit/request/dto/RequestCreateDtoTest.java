@@ -9,19 +9,19 @@ import org.springframework.boot.test.json.JsonContent;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-class ItemRequestDtoRequestCreateTest {
+class RequestCreateDtoTest {
 
 
     @Autowired
-    private JacksonTester<ItemRequestDtoRequestCreate> itemRequestDtoRequestCreateJacksonTester;
+    private JacksonTester<RequestCreateDto> itemRequestDtoRequestCreateJacksonTester;
 
     @Test
     void testItemRequestDtoRequestCreateSerialization() throws Exception {
-        ItemRequestDtoRequestCreate request = ItemRequestDtoRequestCreate.builder()
+        RequestCreateDto request = RequestCreateDto.builder()
                 .description("Test Description")
                 .build();
 
-        JsonContent<ItemRequestDtoRequestCreate> json = itemRequestDtoRequestCreateJacksonTester.write(request);
+        JsonContent<RequestCreateDto> json = itemRequestDtoRequestCreateJacksonTester.write(request);
 
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("Test Description");
     }
@@ -30,7 +30,7 @@ class ItemRequestDtoRequestCreateTest {
     void testItemRequestDtoRequestCreateDeserialization() throws Exception {
         String jsonContent = "{\"description\":\"Test Description\"}";
 
-        ItemRequestDtoRequestCreate request = itemRequestDtoRequestCreateJacksonTester.parseObject(jsonContent);
+        RequestCreateDto request = itemRequestDtoRequestCreateJacksonTester.parseObject(jsonContent);
 
         assertThat(request.getDescription()).isEqualTo("Test Description");
     }

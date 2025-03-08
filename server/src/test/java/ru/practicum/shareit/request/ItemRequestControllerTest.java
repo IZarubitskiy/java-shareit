@@ -10,9 +10,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.shareit.item.dto.ItemDtoResponse;
-import ru.practicum.shareit.request.dto.ItemRequestDtoRequestCreate;
-import ru.practicum.shareit.request.dto.ItemRequestDtoResponse;
-import ru.practicum.shareit.request.dto.ItemRequestDtoResponseWithAnswers;
+import ru.practicum.shareit.request.dto.RequestCreateDto;
+import ru.practicum.shareit.request.dto.RequestResponseDto;
+import ru.practicum.shareit.request.dto.RequestResponseWithAnswersDto;
 import ru.practicum.shareit.request.service.ItemRequestService;
 
 import java.time.LocalDateTime;
@@ -39,24 +39,24 @@ class ItemRequestControllerTest {
 
     @Test
     void testCreateRequest() throws Exception {
-        ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
+        RequestCreateDto requestCreateDto = RequestCreateDto.builder()
                 .description("request description test")
                 .build();
 
-        ItemRequestDtoResponse itemRequestDtoResponse = ItemRequestDtoResponse.builder()
+        RequestResponseDto requestResponseDto = RequestResponseDto.builder()
                 .id(1L)
                 .description("request description test")
                 .requesterId(1L)
                 .created(LocalDateTime.now())
                 .build();
 
-        Mockito.when(itemRequestService.add(Mockito.any(ItemRequestDtoRequestCreate.class), Mockito.eq(1L)))
-                .thenReturn(itemRequestDtoResponse);
+        Mockito.when(itemRequestService.add(Mockito.any(RequestCreateDto.class), Mockito.eq(1L)))
+                .thenReturn(requestResponseDto);
 
         mockMvc.perform(post("/requests")
                         .header("X-Sharer-User-Id", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(itemRequestDtoRequestCreate)))
+                        .content(objectMapper.writeValueAsString(requestCreateDto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.description").value("request description test"))
@@ -72,14 +72,14 @@ class ItemRequestControllerTest {
                 .available(true)
                 .build();
 
-        ItemRequestDtoResponseWithAnswers itemRequestDtoResponseWithAnswers = ItemRequestDtoResponseWithAnswers.builder()
+        RequestResponseWithAnswersDto requestResponseWithAnswersDto = RequestResponseWithAnswersDto.builder()
                 .id(1L)
                 .description("request description test")
                 .created(LocalDateTime.now())
                 .items(Collections.singletonList(item))
                 .build();
 
-        List<ItemRequestDtoResponseWithAnswers> requests = Collections.singletonList(itemRequestDtoResponseWithAnswers);
+        List<RequestResponseWithAnswersDto> requests = Collections.singletonList(requestResponseWithAnswersDto);
 
         Mockito.when(itemRequestService.getOwn(Mockito.eq(1L))).thenReturn(requests);
 
@@ -96,14 +96,14 @@ class ItemRequestControllerTest {
 
     @Test
     void testGetAll() throws Exception {
-        ItemRequestDtoResponse itemRequestDtoResponse = ItemRequestDtoResponse.builder()
+        RequestResponseDto requestResponseDto = RequestResponseDto.builder()
                 .id(1L)
                 .description("request description test")
                 .requesterId(1L)
                 .created(LocalDateTime.now())
                 .build();
 
-        List<ItemRequestDtoResponse> requests = Collections.singletonList(itemRequestDtoResponse);
+        List<RequestResponseDto> requests = Collections.singletonList(requestResponseDto);
 
         Mockito.when(itemRequestService.getAll()).thenReturn(requests);
 
@@ -124,14 +124,14 @@ class ItemRequestControllerTest {
                 .available(true)
                 .build();
 
-        ItemRequestDtoResponseWithAnswers itemRequestDtoResponseWithAnswers = ItemRequestDtoResponseWithAnswers.builder()
+        RequestResponseWithAnswersDto requestResponseWithAnswersDto = RequestResponseWithAnswersDto.builder()
                 .id(1L)
                 .description("request description test")
                 .created(LocalDateTime.now())
                 .items(Collections.singletonList(item))
                 .build();
 
-        Mockito.when(itemRequestService.getById(Mockito.eq(1L))).thenReturn(itemRequestDtoResponseWithAnswers);
+        Mockito.when(itemRequestService.getById(Mockito.eq(1L))).thenReturn(requestResponseWithAnswersDto);
 
         mockMvc.perform(get("/requests/1")
                         .contentType(MediaType.APPLICATION_JSON))

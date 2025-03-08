@@ -7,9 +7,9 @@ import ru.practicum.shareit.exceptions.exemption.NotFoundException;
 import ru.practicum.shareit.item.dto.ItemDtoResponse;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.request.dao.ItemRequestRepository;
-import ru.practicum.shareit.request.dto.ItemRequestDtoRequestCreate;
-import ru.practicum.shareit.request.dto.ItemRequestDtoResponse;
-import ru.practicum.shareit.request.dto.ItemRequestDtoResponseWithAnswers;
+import ru.practicum.shareit.request.dto.RequestCreateDto;
+import ru.practicum.shareit.request.dto.RequestResponseDto;
+import ru.practicum.shareit.request.dto.RequestResponseWithAnswersDto;
 import ru.practicum.shareit.request.mapper.ItemRequestMapper;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.service.ItemRequestService;
@@ -32,15 +32,15 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     private UserMapper userMapper;
 
     @Override
-    public ItemRequestDtoResponse add(ItemRequestDtoRequestCreate itemRequestDtoRequestCreate, Long requesterId) {
+    public RequestResponseDto add(RequestCreateDto requestCreateDto, Long requesterId) {
         User requester = userMapper.toUser(userService.getById(requesterId));
-        ItemRequest request = itemRequestMapper.toItemRequest(itemRequestDtoRequestCreate, requester);
+        ItemRequest request = itemRequestMapper.toItemRequest(requestCreateDto, requester);
         request.setCreationDate(LocalDateTime.now());
         return itemRequestMapper.toItemRequestDtoResponse(itemRequestRepository.save(request));
     }
 
     @Override
-    public List<ItemRequestDtoResponseWithAnswers> getOwn(Long requesterId) {
+    public List<RequestResponseWithAnswersDto> getOwn(Long requesterId) {
         List<ItemRequest> userRequests = itemRequestRepository.findRequestsByRequester_IdOrderByCreationDateDesc(requesterId);
         List<ItemDtoResponse> answers = itemService.getItemsByRequestIds(userRequests.stream().map(ItemRequest::getId).toList());
 
@@ -56,14 +56,14 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     }
 
     @Override
-    public List<ItemRequestDtoResponse> getAll() {
+    public List<RequestResponseDto> getAll() {
         return itemRequestRepository.findAllByOrderByCreationDateDesc().stream()
                 .map(itemRequestMapper::toItemRequestDtoResponse)
                 .toList();
     }
 
     @Override
-    public ItemRequestDtoResponseWithAnswers getById(Long requestId) {
+    public RequestResponseWithAnswersDto getById(Long requestId) {
         ItemRequest itemRequest = itemRequestRepository.findById(requestId)
                 .orElseThrow(() -> new NotFoundException(String.format("ItemRequest with id %d not found", requestId)));
         List<ItemDtoResponse> itemDtoResponses = itemService.getItemsByRequestIds(List.of(requestId));

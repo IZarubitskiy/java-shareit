@@ -11,24 +11,24 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-class ItemRequestDtoResponseTest {
+class RequestResponseDtoTest {
 
 
     @Autowired
-    private JacksonTester<ItemRequestDtoResponse> itemRequestDtoResponseJacksonTester;
+    private JacksonTester<RequestResponseDto> itemRequestDtoResponseJacksonTester;
 
     @Test
     void testItemRequestDtoResponseSerialization() throws Exception {
         LocalDateTime createdAt = LocalDateTime.of(2023, 10, 1, 12, 0);
 
-        ItemRequestDtoResponse response = ItemRequestDtoResponse.builder()
+        RequestResponseDto response = RequestResponseDto.builder()
                 .id(1L)
                 .description("Test Description")
                 .requesterId(123L)
                 .created(createdAt)
                 .build();
 
-        JsonContent<ItemRequestDtoResponse> json = itemRequestDtoResponseJacksonTester.write(response);
+        JsonContent<RequestResponseDto> json = itemRequestDtoResponseJacksonTester.write(response);
 
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(1);
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("Test Description");
@@ -40,7 +40,7 @@ class ItemRequestDtoResponseTest {
     void testItemRequestDtoResponseDeserialization() throws Exception {
         String jsonContent = "{\"id\":1,\"description\":\"Test Description\",\"requesterId\":123,\"created\":\"2023-10-01T12:00:00\"}";
 
-        ItemRequestDtoResponse response = itemRequestDtoResponseJacksonTester.parseObject(jsonContent);
+        RequestResponseDto response = itemRequestDtoResponseJacksonTester.parseObject(jsonContent);
 
         assertThat(response.getId()).isEqualTo(1L);
         assertThat(response.getDescription()).isEqualTo("Test Description");

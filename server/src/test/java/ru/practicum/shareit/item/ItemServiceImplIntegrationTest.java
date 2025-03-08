@@ -16,8 +16,8 @@ import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.impl.ItemServiceImpl;
 import ru.practicum.shareit.request.dao.ItemRequestRepository;
-import ru.practicum.shareit.request.dto.ItemRequestDtoRequestCreate;
-import ru.practicum.shareit.request.dto.ItemRequestDtoResponse;
+import ru.practicum.shareit.request.dto.RequestCreateDto;
+import ru.practicum.shareit.request.dto.RequestResponseDto;
 import ru.practicum.shareit.request.service.impl.ItemRequestServiceImpl;
 import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
 import ru.practicum.shareit.user.dto.UserDtoResponse;
@@ -109,17 +109,17 @@ class ItemServiceImplIntegrationTest {
                 .build();
         userDtoResponse = userService.add(createRequester);
 
-        ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
+        RequestCreateDto requestCreateDto = RequestCreateDto.builder()
                 .description("test")
                 .build();
 
-        ItemRequestDtoResponse itemRequestDtoResponse = itemRequestService.add(itemRequestDtoRequestCreate, userDtoResponse.getId());
+        RequestResponseDto requestResponseDto = itemRequestService.add(requestCreateDto, userDtoResponse.getId());
 
         ItemDtoRequestCreate createItemRequest = ItemDtoRequestCreate.builder()
                 .name("new item")
                 .description("new item description")
                 .available(false)
-                .requestId(itemRequestDtoResponse.getId())
+                .requestId(requestResponseDto.getId())
                 .build();
 
         ItemDtoResponse newItemResponse = itemService.add(userDtoResponse.getId(), createItemRequest);
@@ -128,13 +128,13 @@ class ItemServiceImplIntegrationTest {
         assertThat(newItemResponse.getName()).isEqualTo("new item");
         assertThat(newItemResponse.getDescription()).isEqualTo("new item description");
         assertThat(newItemResponse.getAvailable()).isFalse();
-        assertThat(newItemResponse.getRequestId()).isEqualTo(itemRequestDtoResponse.getId());
+        assertThat(newItemResponse.getRequestId()).isEqualTo(requestResponseDto.getId());
 
         Item savedItem = itemRepository.findById(newItemResponse.getId()).orElseThrow();
         assertThat(savedItem.getName()).isEqualTo("new item");
         assertThat(savedItem.getDescription()).isEqualTo("new item description");
         assertThat(savedItem.getAvailable()).isFalse();
-        assertThat(savedItem.getItemRequest().getId()).isEqualTo(itemRequestDtoResponse.getId());
+        assertThat(savedItem.getItemRequest().getId()).isEqualTo(requestResponseDto.getId());
 
     }
 

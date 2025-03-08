@@ -11,9 +11,9 @@ import ru.practicum.shareit.item.dto.ItemDtoRequestCreate;
 import ru.practicum.shareit.item.dto.ItemDtoResponse;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.request.dao.ItemRequestRepository;
-import ru.practicum.shareit.request.dto.ItemRequestDtoRequestCreate;
-import ru.practicum.shareit.request.dto.ItemRequestDtoResponse;
-import ru.practicum.shareit.request.dto.ItemRequestDtoResponseWithAnswers;
+import ru.practicum.shareit.request.dto.RequestCreateDto;
+import ru.practicum.shareit.request.dto.RequestResponseDto;
+import ru.practicum.shareit.request.dto.RequestResponseWithAnswersDto;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.service.impl.ItemRequestServiceImpl;
 import ru.practicum.shareit.user.dto.UserDtoRequestCreate;
@@ -70,39 +70,39 @@ public class ItemRequestServiceImplIntegrationTest {
 
     @Test
     void shouldCreateRequest() {
-        ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
+        RequestCreateDto requestCreateDto = RequestCreateDto.builder()
                 .description("test description")
                 .build();
 
-        ItemRequestDtoResponse itemRequestDtoResponse = itemRequestService.add(itemRequestDtoRequestCreate, userDtoResponse.getId());
+        RequestResponseDto requestResponseDto = itemRequestService.add(requestCreateDto, userDtoResponse.getId());
 
-        assertThat(itemRequestDtoResponse.getId()).isNotNull();
-        assertThat(itemRequestDtoResponse.getDescription()).isEqualTo("test description");
-        assertThat(itemRequestDtoResponse.getRequesterId()).isEqualTo(userDtoResponse.getId());
+        assertThat(requestResponseDto.getId()).isNotNull();
+        assertThat(requestResponseDto.getDescription()).isEqualTo("test description");
+        assertThat(requestResponseDto.getRequesterId()).isEqualTo(userDtoResponse.getId());
 
-        ItemRequest savedRequest = itemRequestRepository.findById(itemRequestDtoResponse.getId()).orElseThrow();
+        ItemRequest savedRequest = itemRequestRepository.findById(requestResponseDto.getId()).orElseThrow();
         assertThat(savedRequest.getDescription()).isEqualTo("test description");
         assertThat(savedRequest.getRequester().getId()).isEqualTo(userDtoResponse.getId());
     }
 
     @Test
     void shouldThrowNotFoundExceptionWhenUserNotFoundForCreateRequest() {
-        ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
+        RequestCreateDto requestCreateDto = RequestCreateDto.builder()
                 .description("test description")
                 .build();
 
-        assertThatThrownBy(() -> itemRequestService.add(itemRequestDtoRequestCreate, 999L))
+        assertThatThrownBy(() -> itemRequestService.add(requestCreateDto, 999L))
                 .isInstanceOf(NotFoundException.class);
     }
 
     @Test
     void shouldFindAllUserRequests() {
-        ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
+        RequestCreateDto requestCreateDto = RequestCreateDto.builder()
                 .description("test description")
                 .build();
-        ItemRequestDtoResponse requestResponse = itemRequestService.add(itemRequestDtoRequestCreate, userDtoResponse.getId());
+        RequestResponseDto requestResponse = itemRequestService.add(requestCreateDto, userDtoResponse.getId());
 
-        List<ItemRequestDtoResponseWithAnswers> userRequests = itemRequestService.getOwn(userDtoResponse.getId());
+        List<RequestResponseWithAnswersDto> userRequests = itemRequestService.getOwn(userDtoResponse.getId());
 
         assertThat(userRequests).hasSize(1);
         assertThat(userRequests.getFirst().getId()).isEqualTo(requestResponse.getId());
@@ -111,12 +111,12 @@ public class ItemRequestServiceImplIntegrationTest {
 
     @Test
     void shouldFindAllRequests() {
-        ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
+        RequestCreateDto requestCreateDto = RequestCreateDto.builder()
                 .description("test description")
                 .build();
-        ItemRequestDtoResponse requestResponse = itemRequestService.add(itemRequestDtoRequestCreate, userDtoResponse.getId());
+        RequestResponseDto requestResponse = itemRequestService.add(requestCreateDto, userDtoResponse.getId());
 
-        List<ItemRequestDtoResponse> allRequests = itemRequestService.getAll();
+        List<RequestResponseDto> allRequests = itemRequestService.getAll();
 
         assertThat(allRequests).hasSize(1);
         assertThat(allRequests.getFirst().getId()).isEqualTo(requestResponse.getId());
@@ -126,12 +126,12 @@ public class ItemRequestServiceImplIntegrationTest {
 
     @Test
     void shouldFindRequestById() {
-        ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
+        RequestCreateDto requestCreateDto = RequestCreateDto.builder()
                 .description("test description")
                 .build();
-        ItemRequestDtoResponse requestResponse = itemRequestService.add(itemRequestDtoRequestCreate, userDtoResponse.getId());
+        RequestResponseDto requestResponse = itemRequestService.add(requestCreateDto, userDtoResponse.getId());
 
-        ItemRequestDtoResponseWithAnswers foundRequest = itemRequestService.getById(requestResponse.getId());
+        RequestResponseWithAnswersDto foundRequest = itemRequestService.getById(requestResponse.getId());
 
         assertThat(foundRequest.getId()).isEqualTo(requestResponse.getId());
         assertThat(foundRequest.getId()).isEqualTo(requestResponse.getId());
@@ -146,10 +146,10 @@ public class ItemRequestServiceImplIntegrationTest {
 
     @Test
     void shouldFindRequestWithItems() {
-        ItemRequestDtoRequestCreate itemRequestDtoRequestCreate = ItemRequestDtoRequestCreate.builder()
+        RequestCreateDto requestCreateDto = RequestCreateDto.builder()
                 .description("test description")
                 .build();
-        ItemRequestDtoResponse itemRequestDtoResponse = itemRequestService.add(itemRequestDtoRequestCreate, userDtoResponse.getId());
+        RequestResponseDto requestResponseDto = itemRequestService.add(requestCreateDto, userDtoResponse.getId());
 
         ItemDtoRequestCreate itemDtoRequestCreate = ItemDtoRequestCreate.builder()
                 .name("test item")
@@ -159,10 +159,10 @@ public class ItemRequestServiceImplIntegrationTest {
                 .build();
         itemDtoResponse = itemService.add(userDtoResponse.getId(), itemDtoRequestCreate);
 
-        ItemRequestDtoResponseWithAnswers foundRequest = itemRequestService.getById(itemRequestDtoResponse.getId());
+        RequestResponseWithAnswersDto foundRequest = itemRequestService.getById(requestResponseDto.getId());
 
         assertThat(foundRequest.getItems()).hasSize(1);
-        assertThat(foundRequest.getId()).isEqualTo(itemRequestDtoResponse.getId());
+        assertThat(foundRequest.getId()).isEqualTo(requestResponseDto.getId());
         assertThat(foundRequest.getItems().getFirst().getId()).isEqualTo(itemDtoResponse.getId());
         assertThat(foundRequest.getItems().getFirst().getName()).isEqualTo("test item");
     }

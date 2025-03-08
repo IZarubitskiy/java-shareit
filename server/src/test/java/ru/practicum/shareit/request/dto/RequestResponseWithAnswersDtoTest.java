@@ -13,10 +13,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-class ItemRequestDtoResponseWithAnswersTest {
+class RequestResponseWithAnswersDtoTest {
 
     @Autowired
-    private JacksonTester<ItemRequestDtoResponseWithAnswers> itemRequestDtoResponseWithAnswersJacksonTester;
+    private JacksonTester<RequestResponseWithAnswersDto> itemRequestDtoResponseWithAnswersJacksonTester;
 
     @Test
     void testItemRequestDtoResponseWithAnswersSerialization() throws Exception {
@@ -26,14 +26,14 @@ class ItemRequestDtoResponseWithAnswersTest {
                 new ItemDtoResponse(2L, "Item 2 test", "description 2 test", true, 2L, 2L)
         );
 
-        ItemRequestDtoResponseWithAnswers response = ItemRequestDtoResponseWithAnswers.builder()
+        RequestResponseWithAnswersDto response = RequestResponseWithAnswersDto.builder()
                 .id(1L)
                 .description("Test Description")
                 .created(createdAt)
                 .items(items)
                 .build();
 
-        JsonContent<ItemRequestDtoResponseWithAnswers> json = itemRequestDtoResponseWithAnswersJacksonTester.write(response);
+        JsonContent<RequestResponseWithAnswersDto> json = itemRequestDtoResponseWithAnswersJacksonTester.write(response);
 
         assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(1);
         assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("Test Description");
@@ -49,7 +49,7 @@ class ItemRequestDtoResponseWithAnswersTest {
     void testItemRequestDtoResponseWithAnswersDeserialization() throws Exception {
         String jsonContent = "{\"id\":1,\"description\":\"Test Description\",\"created\":\"2023-10-01T12:00:00\",\"items\":[{\"id\":1,\"name\":\"Item 1\"},{\"id\":2,\"name\":\"Item 2\"}]}";
 
-        ItemRequestDtoResponseWithAnswers response = itemRequestDtoResponseWithAnswersJacksonTester.parseObject(jsonContent);
+        RequestResponseWithAnswersDto response = itemRequestDtoResponseWithAnswersJacksonTester.parseObject(jsonContent);
 
         assertThat(response.getId()).isEqualTo(1L);
         assertThat(response.getDescription()).isEqualTo("Test Description");
