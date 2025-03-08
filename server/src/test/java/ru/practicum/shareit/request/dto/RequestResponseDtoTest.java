@@ -1,0 +1,51 @@
+package ru.practicum.shareit.request.dto;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.JsonTest;
+import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.boot.test.json.JsonContent;
+
+import java.time.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@JsonTest
+class RequestResponseDtoTest {
+
+
+    @Autowired
+    private JacksonTester<RequestResponseDto> itemRequestDtoResponseJacksonTester;
+
+    @Test
+    void testItemRequestDtoResponseSerialization() throws Exception {
+        LocalDateTime createdAt = LocalDateTime.of(2023, 10, 1, 12, 0);
+
+        RequestResponseDto response = RequestResponseDto.builder()
+                .id(1L)
+                .description("Test Description")
+                .requesterId(123L)
+                .created(createdAt)
+                .build();
+
+        JsonContent<RequestResponseDto> json = itemRequestDtoResponseJacksonTester.write(response);
+
+        assertThat(json).extractingJsonPathNumberValue("$.id").isEqualTo(1);
+        assertThat(json).extractingJsonPathStringValue("$.description").isEqualTo("Test Description");
+        assertThat(json).extractingJsonPathNumberValue("$.requesterId").isEqualTo(123);
+        assertThat(json).extractingJsonPathStringValue("$.created").isEqualTo("2023-10-01T12:00:00");
+    }
+
+    @Test
+    void testItemRequestDtoResponseDeserialization() throws Exception {
+        String jsonContent = "{\"id\":1,\"description\":\"Test Description\",\"requesterId\":123,\"created\":\"2023-10-01T12:00:00\"}";
+
+        RequestResponseDto response = itemRequestDtoResponseJacksonTester.parseObject(jsonContent);
+
+        assertThat(response.getId()).isEqualTo(1L);
+        assertThat(response.getDescription()).isEqualTo("Test Description");
+        assertThat(response.getRequesterId()).isEqualTo(123L);
+        assertThat(response.getCreated()).isEqualTo(LocalDateTime.of(2023, 10, 1, 12, 0));
+    }
+
+}
